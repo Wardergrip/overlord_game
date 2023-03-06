@@ -1,4 +1,5 @@
 #pragma once
+class TorusPrefab;
 class MinionScene final : public GameScene
 {
 public:
@@ -20,6 +21,12 @@ private:
 	GameObject* m_pObject{};
 	RigidBodyComponent* m_pRigidBody{};
 	FreeCamera* m_pFixedCamera{};
+
+	TorusPrefab* m_pTorusBig{};
+	TorusPrefab* m_pTorusMedium{};
+	TorusPrefab* m_pTorusSmall{};
+
+	float m_Speed{90};
 };
 
 

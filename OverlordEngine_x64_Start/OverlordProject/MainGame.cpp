@@ -18,7 +18,7 @@
 #pragma region Lab/Milestone Includes
 #ifdef W3
 #include "Scenes/Week 3/MinionScene.h"
-//#include "Scenes/Week 3/ComponentTestScene.h"
+#include "Scenes/Week 3/ComponentTestScene.h"
 //#include "Scenes/Week 3/PongScene.h"
 #endif
 
@@ -39,7 +39,7 @@
 #include "Scenes/Week 6/HardwareSkinningScene.h"
 #endif
 
-#ifdef W5
+#ifdef W7
 #include "Scenes/Week 7/FontTestScene.h"
 #include "Scenes/Week 7/CharacterScene.h"
 #include "Scenes/Week 7/PickingScene.h"
@@ -94,8 +94,8 @@ void MainGame::Initialize()
 {
 
 #ifdef W3
-	SceneManager::Get()->AddGameScene(new MinionScene());
-	//SceneManager::Get()->AddGameScene(new ComponentTestScene());
+	//SceneManager::Get()->AddGameScene(new MinionScene());
+	SceneManager::Get()->AddGameScene(new ComponentTestScene());
 	//SceneManager::Get()->AddGameScene(new PongScene());
 #endif
 
