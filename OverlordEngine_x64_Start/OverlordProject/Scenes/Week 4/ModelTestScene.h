@@ -16,8 +16,6 @@ protected:
 	void OnGUI() override;*/
 
 private:
-	GameObject* m_pSprite{};
-	float m_TotalRotation{};
-	bool m_AutoRotate{};
+	GameObject* m_pChair{};
 };
 
