@@ -44,7 +44,7 @@ SpriteRenderer::~SpriteRenderer()
 	m_Textures.clear();
 }
 
-void SpriteRenderer::UpdateBuffer(const SceneContext& /*sceneContext*/)
+void SpriteRenderer::UpdateBuffer(const SceneContext& sceneContext)
 {
 	TODO_W4(L"Complete UpdateBuffer")
 
@@ -57,7 +57,25 @@ void SpriteRenderer::UpdateBuffer(const SceneContext& /*sceneContext*/)
 		//		and set the cpu access flags to access_write
 		//
 		//		Finally create the buffer (sceneContext.d3dContext.pDevice). Be sure to log the HResult! (HANDLE_ERROR)
+		if (m_pVertexBuffer) m_pVertexBuffer->Release();
 
+		if (m_Sprites.size() != m_BufferSize) m_BufferSize = static_cast<UINT>(m_Sprites.size());
+
+		D3D11_BUFFER_DESC bd{};
+		bd.Usage = D3D11_USAGE_DYNAMIC;
+		bd.ByteWidth = sizeof(VertexSprite) * static_cast<uint32_t>(m_Sprites.size());
+		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		bd.MiscFlags = 0;
+
+		D3D11_SUBRESOURCE_DATA initData{};
+		initData.pSysMem = m_Sprites.data();
+
+		HRESULT result{ sceneContext.d3dContext.pDevice->CreateBuffer(&bd, &initData, &m_pVertexBuffer) };
+		if (FAILED(result))
+		{
+			Logger::LogError(L"Couldn't create a vertex buffer for the SpriteRenderer");
+		}
 
 		ASSERT_NULL_(m_pVertexBuffer);
 	}

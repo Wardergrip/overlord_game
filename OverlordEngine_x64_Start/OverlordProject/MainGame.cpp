@@ -103,7 +103,7 @@ void MainGame::Initialize()
 	SceneManager::Get()->AddGameScene(new ModelTestScene());
 	SceneManager::Get()->AddGameScene(new UberMaterialScene());
 	SceneManager::Get()->AddGameScene(new SpikyScene());
-	//SceneManager::Get()->AddGameScene(new SpriteTestScene());
+	SceneManager::Get()->AddGameScene(new SpriteTestScene());
 #endif
 
 #ifdef W5
