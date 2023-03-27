@@ -24,6 +24,18 @@ void BoneObject::AddBone(BoneObject* pBone)
 	AddChild(pBone);
 }
 
+void BoneObject::CalculateBindPose()
+{
+	const XMMATRIX inverseWorldMatrix{ XMMatrixInverse(nullptr, DirectX::XMLoadFloat4x4(&GetTransform()->GetWorld())) };
+
+	XMStoreFloat4x4(&m_BindPose, inverseWorldMatrix);
+
+	for (BoneObject* pChild : GetChildren<BoneObject>())
+	{
+		pChild->CalculateBindPose();
+	}
+}
+
 void BoneObject::Initialize(const SceneContext&)
 {
 	/*
