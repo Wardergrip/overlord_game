@@ -37,7 +37,7 @@ void BoneObject::Initialize(const SceneContext&)
 	*/
 	GameObject* pEmpty = new GameObject();
 	AddChild(pEmpty);
-	ModelComponent* pModel = pEmpty->AddComponent(new ModelComponent(L"Resources/Meshes/bone.ovm"));
+	ModelComponent* pModel = pEmpty->AddComponent(new ModelComponent(L"Meshes/Bone.ovm"));
 	pModel->SetMaterial(m_pMaterial->GetMaterialId());
 	pEmpty->GetTransform()->Rotate(0, -90, 0);
 	pEmpty->GetTransform()->Scale(m_Length);
