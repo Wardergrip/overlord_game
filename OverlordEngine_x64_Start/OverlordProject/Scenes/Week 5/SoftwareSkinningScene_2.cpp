@@ -1,8 +1,5 @@
 #include "stdafx.h"
 #include "SoftwareSkinningScene_2.h"
-
-#include "stdafx.h"
-#include "SoftwareSkinningScene_2.h"
 #include "Materials/ColorMaterial.h"
 #include "Prefabs/BoneObject.h"
 
