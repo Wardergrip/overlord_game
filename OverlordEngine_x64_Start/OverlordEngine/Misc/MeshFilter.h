@@ -161,6 +161,7 @@ public:
 
 	UINT GetIndexCount(UINT8 subMeshId = 0) const { return m_Meshes[subMeshId].indexCount; }
 	UINT GetVertexCount(UINT8 subMeshId = 0) const { return m_Meshes[subMeshId].vertexCount; }
+	USHORT GetBoneCount() const { return m_BoneCount; }
 
 private:
 	friend class MeshFilterLoader; //TODO: Resolve Friend Classes

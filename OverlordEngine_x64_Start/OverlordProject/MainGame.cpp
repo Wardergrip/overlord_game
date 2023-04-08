@@ -4,8 +4,8 @@
 /*LAB Content*/
 //#define W3
 //#define W4
-#define W5
-// #define W6
+//#define W5
+#define W6
 // #define W7
 // #define W8
 // #define W9
@@ -94,8 +94,8 @@ void MainGame::Initialize()
 {
 
 #ifdef W3
-	//SceneManager::Get()->AddGameScene(new MinionScene());
-	//SceneManager::Get()->AddGameScene(new ComponentTestScene());
+	SceneManager::Get()->AddGameScene(new MinionScene());
+	SceneManager::Get()->AddGameScene(new ComponentTestScene());
 	SceneManager::Get()->AddGameScene(new PongScene());
 #endif
 
