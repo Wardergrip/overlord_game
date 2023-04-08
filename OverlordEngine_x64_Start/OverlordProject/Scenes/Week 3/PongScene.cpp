@@ -14,15 +14,15 @@ void PongScene::Initialize()
 	
 	// Fixed camera
 	{
-		/*const auto pFixedCamera = new FixedCamera();
+		const auto pFixedCamera = new FixedCamera();
 		pFixedCamera->GetTransform()->Translate(0, 40.f, 0);
 		pFixedCamera->GetTransform()->Rotate(90, 0, 0);
 		AddChild(pFixedCamera);
-		SetActiveCamera(pFixedCamera->GetComponent<CameraComponent>());*/
+		SetActiveCamera(pFixedCamera->GetComponent<CameraComponent>());
 	}
 
 	// Material
-	auto pDefaultMat = physx.createMaterial(.0f, .0f, 0.9f);
+	auto pDefaultMat = physx.createMaterial(.0f, .0f, 1.0f);
 
 	// Level
 	{
@@ -30,14 +30,12 @@ void PongScene::Initialize()
 		const constexpr float displacement{ 15.f };
 		m_pCeiling = new GameObject();
 		AddChild(m_pCeiling);
-		auto pRigidBody = m_pCeiling->AddComponent(new RigidBodyComponent());
-		pRigidBody->SetConstraint(RigidBodyConstraint::All, false);
+		auto pRigidBody = m_pCeiling->AddComponent(new RigidBodyComponent(true));
 		pRigidBody->AddCollider(PxBoxGeometry{ dimensions.x * 0.5f,dimensions.y * 0.5f,dimensions.z * 0.5f }, *pDefaultMat);
 
 		m_pFloor = new GameObject();
 		AddChild(m_pFloor);
-		pRigidBody = m_pFloor->AddComponent(new RigidBodyComponent());
-		pRigidBody->SetConstraint(RigidBodyConstraint::All, false);
+		pRigidBody = m_pFloor->AddComponent(new RigidBodyComponent(true));
 		pRigidBody->AddCollider(PxBoxGeometry{ dimensions.x * 0.5f,dimensions.y * 0.5f,dimensions.z * 0.5f }, *pDefaultMat);
 
 		m_pCeiling->GetTransform()->Translate(XMVECTOR{ 0,0,displacement });
@@ -50,18 +48,15 @@ void PongScene::Initialize()
 		m_pPaddleLeft = new CubePrefab(paddleDimensions, XMFLOAT4{ Colors::White });
 		m_pPaddleRight = new CubePrefab(paddleDimensions, XMFLOAT4{ Colors::White });
 
-		m_pPaddleLeft->GetTransform()->Translate(XMVECTOR{ -20,0,0 });
-		m_pPaddleRight->GetTransform()->Translate(XMVECTOR{ 20,0,0 });
-
 		AddChild(m_pPaddleLeft);
 		AddChild(m_pPaddleRight);
 
-		auto pRigidBody = m_pPaddleLeft->AddComponent(new RigidBodyComponent());
-		pRigidBody->SetConstraint(RigidBodyConstraint::All, false);
+		auto pRigidBody = m_pPaddleLeft->AddComponent(new RigidBodyComponent(true));
+		pRigidBody->SetKinematic(true);
 		pRigidBody->AddCollider(PxBoxGeometry{ paddleDimensions.x * 0.5f,paddleDimensions.y * 0.5f,paddleDimensions.z * 0.5f }, *pDefaultMat);
 
-		pRigidBody = m_pPaddleRight->AddComponent(new RigidBodyComponent());
-		pRigidBody->SetConstraint(RigidBodyConstraint::All, false);
+		pRigidBody = m_pPaddleRight->AddComponent(new RigidBodyComponent(true));
+		pRigidBody->SetKinematic(true);
 		pRigidBody->AddCollider(PxBoxGeometry{ paddleDimensions.x * 0.5f,paddleDimensions.y * 0.5f,paddleDimensions.z * 0.5f }, *pDefaultMat);
 	}
 
@@ -76,14 +71,9 @@ void PongScene::Initialize()
 		pRigidBody->SetConstraint(RigidBodyConstraint::TransY, false);
 		pRigidBody->SetConstraint(RigidBodyConstraint::AllRot, false);
 		pRigidBody->AddCollider(PxSphereGeometry{ ballRadius }, *pDefaultMat);
-		pRigidBody->AddForce({ 10,0,-10 },PxForceMode::eIMPULSE);
 	}
 
-	// Triggers
-	m_pTriggerLeft;
-	m_pTriggerRight;
-
-	m_pBall->GetComponent<RigidBodyComponent>()->AddForce(XMFLOAT3{ 0,0,1000 });
+	Reset();
 }
 
 void PongScene::Update()
@@ -129,6 +119,13 @@ void PongScene::Update()
 		m_pPaddleRight->GetTransform()->Translate(pos);
 	}
 
+	// Reset
+	auto ballPos = m_pBall->GetTransform()->GetPosition();
+	if (InputManager::IsKeyboardKey(InputState::pressed, 'R') || std::abs(ballPos.x) > 25 || std::abs(ballPos.z) > 25)
+	{
+		Reset();
+	}
+
 	/*auto& pos = m_SceneContext.pCamera->GetTransform()->GetPosition();
 	auto& rot = m_SceneContext.pCamera->GetTransform()->GetRotation();
 	std::cout << pos.x << " " << pos.y << " " << pos.z
@@ -141,4 +138,12 @@ void PongScene::Draw()
 
 void PongScene::OnGUI()
 {
+}
+
+void PongScene::Reset()
+{
+	m_pPaddleLeft->GetTransform()->Translate(XMVECTOR{ -20,0,0 });
+	m_pPaddleRight->GetTransform()->Translate(XMVECTOR{ 20,0,0 });
+	m_pBall->GetTransform()->Translate(XMVECTOR{ 0,0,0 });
+	m_pBall->GetComponent<RigidBodyComponent>()->AddForce(XMFLOAT3{ 10,0,10 }, PxForceMode::eIMPULSE);
 }

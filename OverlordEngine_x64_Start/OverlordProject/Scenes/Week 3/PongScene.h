@@ -30,4 +30,6 @@ private:
 
 	GameObject* m_pCeiling;
 	GameObject* m_pFloor;
+
+	void Reset();
 };
