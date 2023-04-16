@@ -52,11 +52,9 @@ void PongScene::Initialize()
 		AddChild(m_pPaddleRight);
 
 		auto pRigidBody = m_pPaddleLeft->AddComponent(new RigidBodyComponent(true));
-		pRigidBody->SetKinematic(true);
 		pRigidBody->AddCollider(PxBoxGeometry{ paddleDimensions.x * 0.5f,paddleDimensions.y * 0.5f,paddleDimensions.z * 0.5f }, *pDefaultMat);
 
 		pRigidBody = m_pPaddleRight->AddComponent(new RigidBodyComponent(true));
-		pRigidBody->SetKinematic(true);
 		pRigidBody->AddCollider(PxBoxGeometry{ paddleDimensions.x * 0.5f,paddleDimensions.y * 0.5f,paddleDimensions.z * 0.5f }, *pDefaultMat);
 	}
 
