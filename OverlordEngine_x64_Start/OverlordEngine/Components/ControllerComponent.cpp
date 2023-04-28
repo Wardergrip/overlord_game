@@ -10,7 +10,19 @@ void ControllerComponent::Initialize(const SceneContext& /*sceneContext*/)
 {
 	if(!m_IsInitialized)
 	{
-		TODO_W7(L"Complete the ControllerComponent Intialization")
+		const XMFLOAT3& position{ GetTransform()->GetPosition() };
+		m_ControllerDesc.position = PxExtendedVec3{ position.x, position.y, position.z };
+		m_ControllerDesc.userData = this;
+
+		const auto& pControllerManager{ GetGameObject()->GetScene()->GetPhysxProxy()->GetControllerManager() };
+
+		m_pController = pControllerManager->createController(m_ControllerDesc);
+		ASSERT_NULL_(m_pController);
+
+		m_pController->getActor()->userData = this;
+
+		SetCollisionGroup(static_cast<CollisionGroup>(m_CollisionGroups.word0));
+		SetCollisionIgnoreGroup(static_cast<CollisionGroup>(m_CollisionGroups.word1));
 	}
 }
 
