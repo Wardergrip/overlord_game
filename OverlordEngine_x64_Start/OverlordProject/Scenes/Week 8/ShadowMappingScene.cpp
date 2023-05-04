@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "ShadowMappingScene.h"
 
-#include "Materials/Shadow/DiffuseMaterial_Shadow.h"
-#include "Materials/Shadow/DiffuseMaterial_Shadow_Skinned.h"
+#include "Materials/DiffuseMaterial_Shadow.h"
+#include "Materials/DiffuseMaterial_Shadow_Skinned.h"
 
 
 void ShadowMappingScene::Initialize()
