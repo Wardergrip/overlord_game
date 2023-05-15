@@ -96,9 +96,12 @@
     <ClCompile Include="Materials\DiffuseMaterial_Shadow_Skinned.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial_Shadow.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial_Skinned.cpp" />
+    <ClCompile Include="Materials\Post\PostGrayscale.cpp" />
+    <ClCompile Include="Materials\Post\PostBlur.cpp" />
     <ClCompile Include="Prefabs\BoneObject.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial.cpp" />
     <ClCompile Include="Prefabs\Character.cpp" />
+    <ClCompile Include="Scenes\Week 10\PostProcessingScene.cpp" />
     <ClCompile Include="Scenes\Week 4\ModelTestScene.cpp" />
     <ClCompile Include="Scenes\Week 3\PongScene.cpp" />
     <ClCompile Include="Scenes\Week 3\ComponentTestScene.cpp" />
@@ -146,9 +149,12 @@
     <ClInclude Include="Materials\DiffuseMaterial_Shadow_Skinned.h" />
     <ClInclude Include="Materials\DiffuseMaterial_Shadow.h" />
     <ClInclude Include="Materials\DiffuseMaterial_Skinned.h" />
+    <ClInclude Include="Materials\Post\PostGrayscale.h" />
+    <ClInclude Include="Materials\Post\PostBlur.h" />
     <ClInclude Include="Prefabs\BoneObject.h" />
     <ClInclude Include="Materials\DiffuseMaterial.h" />
     <ClInclude Include="Prefabs\Character.h" />
+    <ClInclude Include="Scenes\Week 10\PostProcessingScene.h" />
     <ClInclude Include="Scenes\Week 4\ModelTestScene.h" />
     <ClInclude Include="Scenes\Week 3\PongScene.h" />
     <ClInclude Include="Scenes\Week 3\ComponentTestScene.h" />
