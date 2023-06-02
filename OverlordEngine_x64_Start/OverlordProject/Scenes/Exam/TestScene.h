@@ -1,5 +1,6 @@
 #pragma once
 
+class Character;
 class TestScene : public GameScene
 {
 public:
@@ -14,9 +15,22 @@ public:
 protected:
 	void Initialize() override;
 	/*void Update() override;
-	void Draw() override;
-	void OnGUI() override;*/
+	void Draw() override;*/
+	void OnGUI() override;
 
 private:
-	
+	enum InputIds
+	{
+		CharacterMoveLeft,
+		CharacterMoveRight,
+		CharacterMoveForward,
+		CharacterMoveBackward,
+		CharacterJump
+	};
+	Character* m_pCharacter;
+	physx::PxMaterial* m_pDefaultMaterial;
+	std::vector<RigidBodyComponent*> m_pLevelColliders;
+	CameraComponent* m_pCameraComp;
+
+	void AddPlayerToScene();
 };
