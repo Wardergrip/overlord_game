@@ -2,6 +2,7 @@
 #include "MenuScene.h"
 
 #include "Prefabs/CubePrefab.h"
+#include "Components/TextComponent.h"
 
 void MenuScene::Initialize()
 {
@@ -45,10 +46,6 @@ void MenuScene::Initialize()
 	AddChild(m_pExitButton);
 	m_pExitButton->GetTransform()->Translate(XMFLOAT3{ 0,-1.35f,0.0f });
 
-	// Button text
-	auto pFont = ContentManager::Load<SpriteFont>(L"SpriteFonts/Consolas_32.fnt");
-	//TextRenderer::Get()->DrawText(m_pFont, StringUtil::utf8_decode(m_Text), m_TextPosition, m_TextColor);
-
 	// Background
 	auto pBackground{ new GameObject() };
 	AddChild(pBackground);
@@ -57,6 +54,12 @@ void MenuScene::Initialize()
 
 	pBackground->GetTransform()->Translate(m_SceneContext.windowWidth / 2.f, m_SceneContext.windowHeight / 2.f, .9f);
 	pBackground->GetTransform()->Scale(1.f, 1.f, 1.f);
+
+	// Button text
+	auto pFont = ContentManager::Load<SpriteFont>(L"SpriteFonts/Consolas_32.fnt");
+	auto pPlayText = new GameObject();
+	auto pTextComp = AddChild(pPlayText)->AddComponent(new TextComponent(pFont, L"Test"));
+	pTextComp->SetPos({ m_SceneContext.windowWidth / 2.f,m_SceneContext.windowHeight / 2.f });
 }
 
 void MenuScene::Update()

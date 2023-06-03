@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "TestScene.h"
 #include "Materials/ColorMaterial.h"
-#include "Materials/DiffuseMaterial.h"
+#include "Materials/DiffuseMaterial_Skinned.h"
 #include "Prefabs/Character.h"
 
 void TestScene::Initialize()
@@ -15,7 +15,7 @@ void TestScene::Initialize()
 	//auto& physX{ PxGetPhysics() };
 	//auto pPhysMat{ physX.createMaterial(0.5f, 0.5f, 0.5f) };
 
-	auto pLevel = new GameObject();
+	/*auto pLevel = new GameObject();
 	AddChild(pLevel);
 	auto pModel = pLevel->AddComponent(new ModelComponent(L"Meshes/Aridia.ovm"));
 
@@ -27,12 +27,12 @@ void TestScene::Initialize()
 		auto pMat = MaterialManager::Get()->CreateMaterial<DiffuseMaterial>();
 		pMat->SetDiffuseTexture(filePath.str());
 		pModel->SetMaterial(pMat,submeshid);
-	}
+	}*/
 
 	AddPlayerToScene();
 	/*auto pCamera = new FixedCamera();
 	m_pCameraComp = pCamera->GetComponent<CameraComponent>();
-	AddChild(pCamera);*/
+	AddChild(pCamera);*/	
 }
 
 void TestScene::OnGUI()
@@ -56,6 +56,7 @@ void TestScene::AddPlayerToScene()
 
 	m_pCharacter = AddChild(new Character(characterDesc));
 	m_pCharacter->GetTransform()->Translate(0.f, 5.f, 0.f);
+	m_pCharacter->GetComponent<CameraComponent>(true)->GetTransform()->Translate(DirectX::XMVECTOR{0, 5, -10.f});
 
 	//Input
 	auto inputAction = InputAction(CharacterMoveLeft, InputState::down, 'A');
@@ -72,4 +73,28 @@ void TestScene::AddPlayerToScene()
 
 	inputAction = InputAction(CharacterJump, InputState::pressed, VK_SPACE, -1, XINPUT_GAMEPAD_A);
 	m_SceneContext.pInput->AddInputAction(inputAction);
+
+	// Model
+	auto pAdamanite = new GameObject();
+	m_pCharacter->AddChild(pAdamanite);
+	auto pAdamModel = pAdamanite->AddComponent(new ModelComponent(L"Meshes/Adamantine.ovm"));
+	auto pAdamMainDiff = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
+	auto pAdamSubDiff_1 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
+	auto pAdamSubDiff_2 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
+	pAdamMainDiff->SetDiffuseTexture(L"Textures/Adamantine/Texture0.png");
+	pAdamSubDiff_1->SetDiffuseTexture(L"Textures/Adamantine/Texture1.png");
+	pAdamSubDiff_2->SetDiffuseTexture(L"Textures/Adamantine/Texture2.png");
+	pAdamModel->SetMaterial(pAdamSubDiff_2, 0);
+	pAdamModel->SetMaterial(pAdamMainDiff, 1);
+	pAdamModel->SetMaterial(pAdamSubDiff_1, 2);
+
+	pAdamanite->GetTransform()->Scale(0.05f);
+	pAdamanite->GetTransform()->Translate(0, -1.2f, 0);
+	pAdamanite->GetTransform()->Rotate(0, 180, 0);
+
+	auto pAnimator = pAdamModel->GetAnimator();
+	pAnimator->SetAnimation(0);
+	pAnimator->SetAnimationSpeed(1.0f);
+	pAnimator->Play();
+
 }

@@ -115,6 +115,7 @@
     <ClInclude Include="Misc\ShadowMapMaterial.h" />
     <ClInclude Include="Prefabs\FixedCamera.h" />
     <ClInclude Include="Prefabs\FreeCamera.h" />
+    <ClInclude Include="Components\TextComponent.h" />
     <ClInclude Include="Utils\ImguiHelper.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -184,6 +185,7 @@
     <ClCompile Include="Misc\ShadowMapMaterial.cpp" />
     <ClCompile Include="Prefabs\FixedCamera.cpp" />
     <ClCompile Include="Prefabs\FreeCamera.cpp" />
+    <ClCompile Include="Components\TextComponent.cpp" />
     <ClCompile Include="Utils\ImguiHelper.cpp" />
     <ClCompile Include="Misc\Material.cpp" />
     <ClCompile Include="Misc\BaseMaterial.cpp" />

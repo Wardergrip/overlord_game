@@ -54,6 +54,7 @@
     <ClCompile Include="Managers\LightManager.cpp" />
     <ClCompile Include="Graphics\ShadowMapRenderer.cpp" />
     <ClCompile Include="Components\ParticleEmitterComponent.cpp" />
+    <ClCompile Include="Components\TextComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -119,5 +120,6 @@
     <ClInclude Include="Managers\LightManager.h" />
     <ClInclude Include="Graphics\ShadowMapRenderer.h" />
     <ClInclude Include="Components\ParticleEmitterComponent.h" />
+    <ClInclude Include="Components\TextComponent.h" />
   </ItemGroup>
 </Project>
