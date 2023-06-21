@@ -77,7 +77,7 @@ void TestScene::AddPlayerToScene()
 	// Model
 	auto pAdamanite = new GameObject();
 	m_pCharacter->AddChild(pAdamanite);
-	auto pAdamModel = pAdamanite->AddComponent(new ModelComponent(L"Meshes/Ratchet/Idle.ovm"));
+	auto pAdamModel = pAdamanite->AddComponent(new ModelComponent(L"Meshes/Ratchet/RatchetFixedAnims.ovm"));
 	auto pAdamMainDiff = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
 	auto pAdamSubDiff_1 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
 	auto pAdamSubDiff_2 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
