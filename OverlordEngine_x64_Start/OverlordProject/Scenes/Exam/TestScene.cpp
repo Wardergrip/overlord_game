@@ -77,16 +77,16 @@ void TestScene::AddPlayerToScene()
 	// Model
 	auto pAdamanite = new GameObject();
 	m_pCharacter->AddChild(pAdamanite);
-	auto pAdamModel = pAdamanite->AddComponent(new ModelComponent(L"Meshes/Adamantine.ovm"));
+	auto pAdamModel = pAdamanite->AddComponent(new ModelComponent(L"Meshes/Ratchet/Idle.ovm"));
 	auto pAdamMainDiff = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
 	auto pAdamSubDiff_1 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
 	auto pAdamSubDiff_2 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
 	pAdamMainDiff->SetDiffuseTexture(L"Textures/Adamantine/Texture0.png");
 	pAdamSubDiff_1->SetDiffuseTexture(L"Textures/Adamantine/Texture1.png");
 	pAdamSubDiff_2->SetDiffuseTexture(L"Textures/Adamantine/Texture2.png");
-	pAdamModel->SetMaterial(pAdamSubDiff_2, 0);
-	pAdamModel->SetMaterial(pAdamMainDiff, 1);
-	pAdamModel->SetMaterial(pAdamSubDiff_1, 2);
+	pAdamModel->SetMaterial(pAdamMainDiff, 0);
+	pAdamModel->SetMaterial(pAdamSubDiff_1, 1);
+	pAdamModel->SetMaterial(pAdamSubDiff_2, 2);
 
 	pAdamanite->GetTransform()->Scale(0.05f);
 	pAdamanite->GetTransform()->Translate(0, -1.2f, 0);

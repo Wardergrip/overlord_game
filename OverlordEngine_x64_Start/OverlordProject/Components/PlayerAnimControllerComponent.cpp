@@ -8,10 +8,10 @@ PlayerAnimControllerComponent::PlayerAnimControllerComponent(Character* pCharact
 {
 }
 
-void PlayerAnimControllerComponent::Initialize(const SceneContext& sceneContext)
+void PlayerAnimControllerComponent::Initialize(const SceneContext&)
 {
 }
 
-void PlayerAnimControllerComponent::Update(const SceneContext& sceneContext)
+void PlayerAnimControllerComponent::Update(const SceneContext&)
 {
 }
