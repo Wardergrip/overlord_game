@@ -44,6 +44,9 @@ public:
 
 	void DrawImGui();
 
+	const XMFLOAT3& GetTotalVelocity() const { return m_TotalVelocity; }
+	const XMFLOAT3& GetCurrentDirection() const { return m_CurrentDirection; }
+
 protected:
 	void Initialize(const SceneContext&) override;
 	void Update(const SceneContext&) override;
