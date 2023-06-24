@@ -1,10 +1,18 @@
 #pragma once
 
-class Character;
+class CharacterComponent;
 class TestScene : public GameScene
 {
 public:
-	TestScene() : GameScene(L"TestScene") {}
+	TestScene() 
+		: GameScene(L"TestScene") 
+		, m_pPlayer{}
+		, m_pCharComp{}
+		, m_pDefaultMaterial{}
+		, m_pLevelColliders{}
+		, m_pCameraComp{}
+	{
+	}
 	~TestScene() override = default;
 
 	TestScene(const TestScene& other) = delete;
@@ -27,7 +35,8 @@ private:
 		CharacterMoveBackward,
 		CharacterJump
 	};
-	Character* m_pCharacter;
+	GameObject* m_pPlayer;
+	CharacterComponent* m_pCharComp;
 	physx::PxMaterial* m_pDefaultMaterial;
 	std::vector<RigidBodyComponent*> m_pLevelColliders;
 	CameraComponent* m_pCameraComp;

@@ -37,7 +37,8 @@
     <ClCompile Include="Materials\Post\PostBlur.cpp" />
     <ClCompile Include="Scenes\Exam\TestScene.cpp" />
     <ClCompile Include="Scenes\Exam\MenuScene.cpp" />
-    <ClCompile Include="Components\PlayerAnimControllerComponent.cpp" />
+    <ClCompile Include="Components\CharacterAnimControllerComponent.cpp" />
+    <ClCompile Include="Components\CharacterComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -75,6 +76,7 @@
     <ClInclude Include="Materials\Post\PostBlur.h" />
     <ClInclude Include="Scenes\Exam\TestScene.h" />
     <ClInclude Include="Scenes\Exam\MenuScene.h" />
-    <ClInclude Include="Components\PlayerAnimControllerComponent.h" />
+    <ClInclude Include="Components\CharacterAnimControllerComponent.h" />
+    <ClInclude Include="Components\CharacterComponent.h" />
   </ItemGroup>
 </Project>

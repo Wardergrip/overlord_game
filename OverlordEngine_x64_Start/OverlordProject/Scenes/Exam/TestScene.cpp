@@ -2,18 +2,19 @@
 #include "TestScene.h"
 #include "Materials/ColorMaterial.h"
 #include "Materials/DiffuseMaterial_Skinned.h"
-#include "Prefabs/Character.h"
+#include "Components/CharacterComponent.h"
+#include "Components/CharacterAnimControllerComponent.h"
 
 void TestScene::Initialize()
 {
-	m_pCharacter = nullptr;
+	m_pPlayer = nullptr;
 	m_pCameraComp = nullptr;
 	m_pDefaultMaterial = PxGetPhysics().createMaterial(0.5f, 0.5f, 0.5f);
 
 	m_SceneContext.settings.enableOnGUI = true;
 
-	//auto& physX{ PxGetPhysics() };
-	//auto pPhysMat{ physX.createMaterial(0.5f, 0.5f, 0.5f) };
+	auto& physX{ PxGetPhysics() };
+	auto pPhysMat{ physX.createMaterial(0.5f, 0.5f, 0.5f) };
 
 	/*auto pLevel = new GameObject();
 	AddChild(pLevel);
@@ -29,6 +30,12 @@ void TestScene::Initialize()
 		pModel->SetMaterial(pMat,submeshid);
 	}*/
 
+	auto pLevelHitboxObj = new GameObject();
+	AddChild(pLevelHitboxObj);
+	const auto pPxTriangleMesh = ContentManager::Load<PxTriangleMesh>(L"Meshes/AridiaPlatform.ovpt");
+	auto levelRb = pLevelHitboxObj->AddComponent(new RigidBodyComponent(true));
+	levelRb->AddCollider(PxTriangleMeshGeometry(pPxTriangleMesh, PxMeshScale({ .5f,.5f,.5f })), *pPhysMat);
+
 	AddPlayerToScene();
 	/*auto pCamera = new FixedCamera();
 	m_pCameraComp = pCamera->GetComponent<CameraComponent>();
@@ -37,7 +44,7 @@ void TestScene::Initialize()
 
 void TestScene::OnGUI()
 {
-	if (m_pCharacter) m_pCharacter->DrawImGui();
+	if (m_pCharComp) m_pCharComp->DrawImGui();
 }
 
 void TestScene::AddPlayerToScene()
@@ -54,9 +61,10 @@ void TestScene::AddPlayerToScene()
 	characterDesc.actionId_MoveRight = CharacterMoveRight;
 	characterDesc.actionId_Jump = CharacterJump;
 
-	m_pCharacter = AddChild(new Character(characterDesc));
-	m_pCharacter->GetTransform()->Translate(0.f, 5.f, 0.f);
-	m_pCharacter->GetComponent<CameraComponent>(true)->GetTransform()->Translate(DirectX::XMVECTOR{0, 5, -10.f});
+	m_pPlayer = AddChild(new GameObject());
+	m_pCharComp = m_pPlayer->AddComponent(new CharacterComponent(characterDesc));
+	m_pPlayer->GetTransform()->Translate(0.f, 5.f, 0.f);
+	m_pCharComp->GetCharacterCamera()->GetTransform()->Translate(DirectX::XMVECTOR{0, 5, -10.f});
 
 	//Input
 	auto inputAction = InputAction(CharacterMoveLeft, InputState::down, 'A');
@@ -75,26 +83,22 @@ void TestScene::AddPlayerToScene()
 	m_SceneContext.pInput->AddInputAction(inputAction);
 
 	// Model
-	auto pAdamanite = new GameObject();
-	m_pCharacter->AddChild(pAdamanite);
-	auto pAdamModel = pAdamanite->AddComponent(new ModelComponent(L"Meshes/Ratchet/RatchetFixedAnims.ovm"));
-	auto pAdamMainDiff = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
-	auto pAdamSubDiff_1 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
-	auto pAdamSubDiff_2 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
-	pAdamMainDiff->SetDiffuseTexture(L"Textures/Adamantine/Texture0.png");
-	pAdamSubDiff_1->SetDiffuseTexture(L"Textures/Adamantine/Texture1.png");
-	pAdamSubDiff_2->SetDiffuseTexture(L"Textures/Adamantine/Texture2.png");
-	pAdamModel->SetMaterial(pAdamMainDiff, 0);
-	pAdamModel->SetMaterial(pAdamSubDiff_1, 1);
-	pAdamModel->SetMaterial(pAdamSubDiff_2, 2);
+	auto pRatchet = new GameObject();
+	m_pPlayer->AddChild(pRatchet);
+	auto pRatchetModel = pRatchet->AddComponent(new ModelComponent(L"Meshes/Ratchet/RatchetFixedAnims.ovm"));
+	auto pRatchetMainDiff = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
+	auto pRatchetSubDiff_1 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
+	auto pRatchetSubDiff_2 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
+	pRatchetMainDiff->SetDiffuseTexture(L"Textures/Adamantine/Texture0.png");
+	pRatchetSubDiff_1->SetDiffuseTexture(L"Textures/Adamantine/Texture1.png");
+	pRatchetSubDiff_2->SetDiffuseTexture(L"Textures/Adamantine/Texture2.png");
+	pRatchetModel->SetMaterial(pRatchetMainDiff, 0);
+	pRatchetModel->SetMaterial(pRatchetSubDiff_1, 1);
+	pRatchetModel->SetMaterial(pRatchetSubDiff_2, 2);
 
-	pAdamanite->GetTransform()->Scale(0.05f);
-	pAdamanite->GetTransform()->Translate(0, -1.2f, 0);
-	pAdamanite->GetTransform()->Rotate(0, 180, 0);
+	pRatchet->GetTransform()->Scale(0.05f);
+	pRatchet->GetTransform()->Translate(0, -1.2f, 0);
+	pRatchet->GetTransform()->Rotate(0, 180, 0);
 
-	auto pAnimator = pAdamModel->GetAnimator();
-	pAnimator->SetAnimation(0);
-	pAnimator->SetAnimationSpeed(1.0f);
-	pAnimator->Play();
-
+	pRatchet->AddComponent(new CharacterAnimControllerComponent(m_pCharComp, pRatchetModel->GetAnimator()));
 }

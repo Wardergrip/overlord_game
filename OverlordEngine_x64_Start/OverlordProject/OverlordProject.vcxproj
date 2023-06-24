@@ -93,12 +93,13 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\CharacterComponent.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial_Shadow_Skinned.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial_Shadow.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial_Skinned.cpp" />
     <ClCompile Include="Materials\Post\PostGrayscale.cpp" />
     <ClCompile Include="Materials\Post\PostBlur.cpp" />
-    <ClCompile Include="Components\PlayerAnimControllerComponent.cpp" />
+    <ClCompile Include="Components\CharacterAnimControllerComponent.cpp" />
     <ClCompile Include="Scenes\Exam\MenuScene.cpp" />
     <ClCompile Include="Prefabs\BoneObject.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial.cpp" />
@@ -149,12 +150,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\CharacterComponent.h" />
     <ClInclude Include="Materials\DiffuseMaterial_Shadow_Skinned.h" />
     <ClInclude Include="Materials\DiffuseMaterial_Shadow.h" />
     <ClInclude Include="Materials\DiffuseMaterial_Skinned.h" />
     <ClInclude Include="Materials\Post\PostGrayscale.h" />
     <ClInclude Include="Materials\Post\PostBlur.h" />
-    <ClInclude Include="Components\PlayerAnimControllerComponent.h" />
+    <ClInclude Include="Components\CharacterAnimControllerComponent.h" />
     <ClInclude Include="Scenes\Exam\MenuScene.h" />
     <ClInclude Include="Prefabs\BoneObject.h" />
     <ClInclude Include="Materials\DiffuseMaterial.h" />
