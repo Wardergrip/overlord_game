@@ -35,5 +35,5 @@ void SpriteComponent::Draw(const SceneContext& /*sceneContext*/)
 		XMFLOAT2{ position.x, position.y }, m_Color,
 		m_Pivot, XMFLOAT2{ scale.x, scale.y },
 		MathHelper::QuaternionToEuler(pTransform->GetWorldRotation()).z);*/
-	SpriteRenderer::Get()->AppendSprite(m_pTexture, XMFLOAT2{ position.x,position.y },m_Color,m_Pivot,XMFLOAT2{scale.x,scale.y}, MathHelper::QuaternionToEuler(pTransform->GetWorldRotation()).z);
+	SpriteRenderer::Get()->AppendSprite(m_pTexture, XMFLOAT2{ position.x,position.y },m_Color,m_Pivot,XMFLOAT2{scale.x,scale.y}, MathHelper::QuaternionToEuler(pTransform->GetWorldRotation()).z,pTransform->GetPosition().z);
 }

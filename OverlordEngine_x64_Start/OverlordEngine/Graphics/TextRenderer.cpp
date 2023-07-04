@@ -160,7 +160,7 @@ void TextRenderer::CreateTextVertices(SpriteFont* pFont, const TextCache& textCa
 		VertexText vertex;
 		vertex.position.x = textCache.position.x + float(totalAdvanceX + metric.offsetX);
 		vertex.position.y = textCache.position.y + float(metric.offsetY);
-		vertex.position.z = .9f;
+		vertex.position.z = 0;
 		vertex.color = textCache.color;
 		vertex.texCoord = metric.texCoord;
 		vertex.characterDimension = { float(metric.width), float(metric.height) };

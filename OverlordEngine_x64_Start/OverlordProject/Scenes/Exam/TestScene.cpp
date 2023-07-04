@@ -4,6 +4,7 @@
 #include "Materials/DiffuseMaterial_Skinned.h"
 #include "Components/CharacterComponent.h"
 #include "Components/CharacterAnimControllerComponent.h"
+#include "Components/TextComponent.h"
 
 void TestScene::Initialize()
 {
@@ -15,6 +16,7 @@ void TestScene::Initialize()
 
 	auto& physX{ PxGetPhysics() };
 	auto pPhysMat{ physX.createMaterial(0.5f, 0.5f, 0.5f) };
+	auto pFont = ContentManager::Load<SpriteFont>(L"SpriteFonts/Consolas_32.fnt");
 
 	/*auto pLevel = new GameObject();
 	AddChild(pLevel);
@@ -37,9 +39,13 @@ void TestScene::Initialize()
 	levelRb->AddCollider(PxTriangleMeshGeometry(pPxTriangleMesh, PxMeshScale({ .5f,.5f,.5f })), *pPhysMat);
 
 	AddPlayerToScene();
-	/*auto pCamera = new FixedCamera();
-	m_pCameraComp = pCamera->GetComponent<CameraComponent>();
-	AddChild(pCamera);*/	
+
+	auto boltsHudObj = AddChild(new GameObject());
+	boltsHudObj->AddComponent(new SpriteComponent(L"Textures/BoltsHUD.png", DirectX::XMFLOAT2{1.f,0.f}));
+	boltsHudObj->GetTransform()->Translate(m_SceneContext.windowWidth, 0, .9f);
+
+	auto boltsAmountObj = AddChild(new GameObject());
+	boltsAmountObj->AddComponent(new TextComponent(pFont, L"000000", DirectX::XMFLOAT2{m_SceneContext.windowWidth - 400, 0}, DirectX::XMFLOAT4{251 / 255.f, 218.f / 255.f, 127 / 255.f, 1.f}));
 }
 
 void TestScene::OnGUI()

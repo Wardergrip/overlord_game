@@ -177,12 +177,6 @@ void GameScene::RootDraw()
 		pChild->RootDraw(m_SceneContext);
 	}
 
-	//SpriteRenderer Draw
-	SpriteRenderer::Get()->Draw(m_SceneContext);
-
-	//TextRenderer Draw
-	TextRenderer::Get()->Draw(m_SceneContext);
-
 	//Object-Scene Post-Draw
 	PostDraw();
 	for (const auto pChild : m_pChildren)
@@ -192,6 +186,12 @@ void GameScene::RootDraw()
 
 	//Draw PhysX
 	m_pPhysxProxy->Draw(m_SceneContext);
+
+	//SpriteRenderer Draw
+	SpriteRenderer::Get()->Draw(m_SceneContext);
+
+	//TextRenderer Draw
+	TextRenderer::Get()->Draw(m_SceneContext);
 
 	//Draw Debug Stuff
 	DebugRenderer::Draw(m_SceneContext);
