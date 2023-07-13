@@ -34,7 +34,7 @@ void TestScene::Initialize()
 
 	auto pLevelHitboxObj = new GameObject();
 	AddChild(pLevelHitboxObj);
-	const auto pPxTriangleMesh = ContentManager::Load<PxTriangleMesh>(L"Meshes/AridiaPlatform.ovpt");
+	const auto pPxTriangleMesh = ContentManager::Load<PxTriangleMesh>(L"Meshes/AridiaPlatformV2.ovpt");
 	auto levelRb = pLevelHitboxObj->AddComponent(new RigidBodyComponent(true));
 	levelRb->AddCollider(PxTriangleMeshGeometry(pPxTriangleMesh, PxMeshScale({ .5f,.5f,.5f })), *pPhysMat);
 
