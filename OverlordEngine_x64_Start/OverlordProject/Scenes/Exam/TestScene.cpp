@@ -2,6 +2,8 @@
 #include "TestScene.h"
 #include "Materials/ColorMaterial.h"
 #include "Materials/DiffuseMaterial_Skinned.h"
+#include "Materials/DiffuseMaterial_Shadow.h"
+#include "Materials/DiffuseMaterial.h"
 #include "Components/CharacterComponent.h"
 #include "Components/CharacterAnimControllerComponent.h"
 #include "Components/TextComponent.h"
@@ -14,29 +16,11 @@ void TestScene::Initialize()
 
 	m_SceneContext.settings.enableOnGUI = true;
 
-	auto& physX{ PxGetPhysics() };
-	auto pPhysMat{ physX.createMaterial(0.5f, 0.5f, 0.5f) };
+	//auto& physX{ PxGetPhysics() };
 	auto pFont = ContentManager::Load<SpriteFont>(L"SpriteFonts/Consolas_32.fnt");
 
-	/*auto pLevel = new GameObject();
-	AddChild(pLevel);
-	auto pModel = pLevel->AddComponent(new ModelComponent(L"Meshes/Aridia.ovm"));
-
-	constexpr UINT8 amountSubmeshes{ 205 };
-	for (UINT8 submeshid{ 0 }; submeshid < amountSubmeshes; ++submeshid)
-	{
-		std::wstringstream filePath;
-		filePath << L"Textures/Aridia/" << std::to_wstring(221 + submeshid) << L".png";
-		auto pMat = MaterialManager::Get()->CreateMaterial<DiffuseMaterial>();
-		pMat->SetDiffuseTexture(filePath.str());
-		pModel->SetMaterial(pMat,submeshid);
-	}*/
-
-	auto pLevelHitboxObj = new GameObject();
-	AddChild(pLevelHitboxObj);
-	const auto pPxTriangleMesh = ContentManager::Load<PxTriangleMesh>(L"Meshes/AridiaPlatformV2.ovpt");
-	auto levelRb = pLevelHitboxObj->AddComponent(new RigidBodyComponent(true));
-	levelRb->AddCollider(PxTriangleMeshGeometry(pPxTriangleMesh, PxMeshScale({ .5f,.5f,.5f })), *pPhysMat);
+	//AddLevelVisual();
+	//AddLevelHitbox();
 
 	AddPlayerToScene();
 
@@ -46,6 +30,15 @@ void TestScene::Initialize()
 
 	auto boltsAmountObj = AddChild(new GameObject());
 	boltsAmountObj->AddComponent(new TextComponent(pFont, L"000000", DirectX::XMFLOAT2{m_SceneContext.windowWidth - 400, 0}, DirectX::XMFLOAT4{251 / 255.f, 218.f / 255.f, 127 / 255.f, 1.f}));
+
+	AddBoxToScene(XMVECTOR{ 0,10,0 });
+
+	/*auto pSkyBox = AddChild(new GameObject());
+	pSkyBox->GetTransform()->Scale(1000.f);
+	auto pSkyBoxModel = pSkyBox->AddComponent(new ModelComponent(L"Meshes/SkyBox.ovm"));
+	auto pSkyBoxDiff = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow>();
+	pSkyBoxDiff->SetDiffuseTexture(L"Textures/RC_SkyBox.png");
+	pSkyBoxModel->SetMaterial(pSkyBoxDiff);*/
 }
 
 void TestScene::OnGUI()
@@ -107,4 +100,51 @@ void TestScene::AddPlayerToScene()
 	pRatchet->GetTransform()->Rotate(0, 180, 0);
 
 	pRatchet->AddComponent(new CharacterAnimControllerComponent(m_pCharComp, pRatchetModel->GetAnimator()));
+}
+
+void TestScene::AddBoxToScene(const DirectX::XMVECTOR& pos)
+{
+	static auto pBoxMat = PxGetPhysics().createMaterial(0.5f, 0.5f, 0.f);
+	constexpr float scale = 0.05f;
+	constexpr float triggerScale = 0.06f;
+
+	auto pBoxObj = AddChild(new GameObject());
+	pBoxObj->GetTransform()->Translate(pos);
+	pBoxObj->GetTransform()->Scale(scale);
+
+	auto pBoxModel = pBoxObj->AddComponent(new ModelComponent(L"Meshes/WeaponCrate.ovm"));
+	auto pBoxDiff = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow>();
+	pBoxDiff->SetDiffuseTexture(L"Textures/Mystery.png");
+	pBoxModel->SetMaterial(pBoxDiff);
+
+	const auto pPxConvexMesh = ContentManager::Load<PxConvexMesh>(L"Meshes/WeaponCrate.ovpc");
+	auto boxRb = pBoxObj->AddComponent(new RigidBodyComponent());
+	boxRb->AddCollider(PxConvexMeshGeometry{ pPxConvexMesh,PxMeshScale({ scale,scale,scale })}, *pBoxMat);
+	boxRb->AddCollider(PxConvexMeshGeometry{ pPxConvexMesh,PxMeshScale({triggerScale,triggerScale,triggerScale}) }, *pBoxMat, true);
+}
+
+void TestScene::AddLevelVisual()
+{
+	auto pLevel = new GameObject();
+	AddChild(pLevel);
+	auto pModel = pLevel->AddComponent(new ModelComponent(L"Meshes/Aridia.ovm"));
+
+	constexpr UINT8 amountSubmeshes{ 205 };
+	for (UINT8 submeshid{ 0 }; submeshid < amountSubmeshes; ++submeshid)
+	{
+		std::wstringstream filePath;
+		filePath << L"Textures/Aridia/" << std::to_wstring(221 + submeshid) << L".png";
+		auto pMat = MaterialManager::Get()->CreateMaterial<DiffuseMaterial>();
+		pMat->SetDiffuseTexture(filePath.str());
+		pModel->SetMaterial(pMat, submeshid);
+	}
+}
+
+void TestScene::AddLevelHitbox()
+{
+	auto pLevelHitboxObj = new GameObject();
+	AddChild(pLevelHitboxObj);
+	const auto pPxTriangleMesh = ContentManager::Load<PxTriangleMesh>(L"Meshes/AridiaPlatformV2.ovpt");
+	auto levelRb = pLevelHitboxObj->AddComponent(new RigidBodyComponent(true));
+	levelRb->AddCollider(PxTriangleMeshGeometry(pPxTriangleMesh, PxMeshScale({ .5f,.5f,.5f })), *m_pDefaultMaterial);
 }

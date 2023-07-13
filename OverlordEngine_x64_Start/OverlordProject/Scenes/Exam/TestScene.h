@@ -42,4 +42,7 @@ private:
 	CameraComponent* m_pCameraComp;
 
 	void AddPlayerToScene();
+	void AddLevelVisual();
+	void AddLevelHitbox();
+	void AddBoxToScene(const DirectX::XMVECTOR& pos);
 };
