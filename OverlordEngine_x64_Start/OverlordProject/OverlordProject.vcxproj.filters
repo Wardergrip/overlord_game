@@ -39,6 +39,7 @@
     <ClCompile Include="Scenes\Exam\MenuScene.cpp" />
     <ClCompile Include="Components\CharacterAnimControllerComponent.cpp" />
     <ClCompile Include="Components\CharacterComponent.cpp" />
+    <ClCompile Include="Materials\SkyBoxMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -78,5 +79,6 @@
     <ClInclude Include="Scenes\Exam\MenuScene.h" />
     <ClInclude Include="Components\CharacterAnimControllerComponent.h" />
     <ClInclude Include="Components\CharacterComponent.h" />
+    <ClInclude Include="Materials\SkyBoxMaterial.h" />
   </ItemGroup>
 </Project>

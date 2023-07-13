@@ -4,6 +4,7 @@
 #include "Materials/DiffuseMaterial_Skinned.h"
 #include "Materials/DiffuseMaterial_Shadow.h"
 #include "Materials/DiffuseMaterial.h"
+#include "Materials/SkyBoxMaterial.h"
 #include "Components/CharacterComponent.h"
 #include "Components/CharacterAnimControllerComponent.h"
 #include "Components/TextComponent.h"
@@ -33,12 +34,11 @@ void TestScene::Initialize()
 
 	AddBoxToScene(XMVECTOR{ 0,10,0 });
 
-	/*auto pSkyBox = AddChild(new GameObject());
-	pSkyBox->GetTransform()->Scale(1000.f);
-	auto pSkyBoxModel = pSkyBox->AddComponent(new ModelComponent(L"Meshes/SkyBox.ovm"));
-	auto pSkyBoxDiff = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow>();
-	pSkyBoxDiff->SetDiffuseTexture(L"Textures/RC_SkyBox.png");
-	pSkyBoxModel->SetMaterial(pSkyBoxDiff);*/
+	auto pSkyBox = AddChild(new GameObject());
+	auto pSkyBoxModel = pSkyBox->AddComponent(new ModelComponent(L"Meshes/SkyBoxModel.ovm"));
+	auto pSkyBoxDiff = MaterialManager::Get()->CreateMaterial<SkyBoxMaterial>();
+	pSkyBoxDiff->SetSkyBoxTexture(L"Textures/SkyDawn.dds");
+	pSkyBoxModel->SetMaterial(pSkyBoxDiff);
 }
 
 void TestScene::OnGUI()
