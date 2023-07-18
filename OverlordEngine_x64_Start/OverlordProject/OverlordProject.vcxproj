@@ -93,6 +93,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\BoltsBoxComponent.cpp" />
     <ClCompile Include="Components\CharacterComponent.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial_Shadow_Skinned.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial_Shadow.cpp" />
@@ -151,6 +152,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\BoltsBoxComponent.h" />
     <ClInclude Include="Components\CharacterComponent.h" />
     <ClInclude Include="Materials\DiffuseMaterial_Shadow_Skinned.h" />
     <ClInclude Include="Materials\DiffuseMaterial_Shadow.h" />

@@ -8,6 +8,7 @@
 #include "Components/CharacterComponent.h"
 #include "Components/CharacterAnimControllerComponent.h"
 #include "Components/TextComponent.h"
+#include "Prefabs/CubePrefab.h"
 
 void TestScene::Initialize()
 {
@@ -39,11 +40,20 @@ void TestScene::Initialize()
 	auto pSkyBoxDiff = MaterialManager::Get()->CreateMaterial<SkyBoxMaterial>();
 	pSkyBoxDiff->SetSkyBoxTexture(L"Textures/SkyDawn.dds");
 	pSkyBoxModel->SetMaterial(pSkyBoxDiff);
+
+	m_pTagbox = AddChild(new CubePrefab());
+	m_BoneTransformIdx = 0;
+	m_pTagbox->GetTransform()->Scale(0.1f);
 }
 
 void TestScene::OnGUI()
 {
 	if (m_pCharComp) m_pCharComp->DrawImGui();
+	ImGui::DragInt("BoneTransformIdx", &m_BoneTransformIdx, 1.0f, 0, static_cast<int>(m_pRatchedModel->GetAnimator()->GetBoneTransforms().size() - 1));
+	auto x = m_pRatchedModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,1) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().x*/;
+	auto y = m_pRatchedModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,2) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().y*/;
+	auto z = m_pRatchedModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,3) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().z*/;
+	m_pTagbox->GetTransform()->Translate(x,y,z);
 }
 
 void TestScene::AddPlayerToScene()
@@ -100,9 +110,11 @@ void TestScene::AddPlayerToScene()
 	pRatchet->GetTransform()->Rotate(0, 180, 0);
 
 	pRatchet->AddComponent(new CharacterAnimControllerComponent(m_pCharComp, pRatchetModel->GetAnimator()));
+	//pRatchetModel->GetAnimator()->GetBoneTransforms()
+	m_pRatchedModel = pRatchetModel;
 }
 
-void TestScene::AddBoxToScene(const DirectX::XMVECTOR& pos)
+GameObject* TestScene::AddBoxToScene(const DirectX::XMVECTOR& pos)
 {
 	static auto pBoxMat = PxGetPhysics().createMaterial(0.5f, 0.5f, 0.f);
 	constexpr float scale = 0.05f;
@@ -121,6 +133,12 @@ void TestScene::AddBoxToScene(const DirectX::XMVECTOR& pos)
 	auto boxRb = pBoxObj->AddComponent(new RigidBodyComponent());
 	boxRb->AddCollider(PxConvexMeshGeometry{ pPxConvexMesh,PxMeshScale({ scale,scale,scale })}, *pBoxMat);
 	boxRb->AddCollider(PxConvexMeshGeometry{ pPxConvexMesh,PxMeshScale({triggerScale,triggerScale,triggerScale}) }, *pBoxMat, true);
+	/*pBoxObj->SetOnTriggerCallBack([&](GameObject* pTriggerObject, GameObject* pOtherObject, PxTriggerAction action)
+		{
+			
+		});*/
+
+	return pBoxObj;
 }
 
 void TestScene::AddLevelVisual()

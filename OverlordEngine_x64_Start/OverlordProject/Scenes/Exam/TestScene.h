@@ -44,5 +44,9 @@ private:
 	void AddPlayerToScene();
 	void AddLevelVisual();
 	void AddLevelHitbox();
-	void AddBoxToScene(const DirectX::XMVECTOR& pos);
+	GameObject* AddBoxToScene(const DirectX::XMVECTOR& pos);
+
+	int m_BoneTransformIdx;
+	ModelComponent* m_pRatchedModel;
+	GameObject* m_pTagbox;
 };
