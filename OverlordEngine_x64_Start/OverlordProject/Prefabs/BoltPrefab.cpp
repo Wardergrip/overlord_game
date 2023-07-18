@@ -31,7 +31,7 @@ void BoltPrefab::Initialize(const SceneContext&)
 				}
 				// TODO: Sounds and stuff
 
-				// TODO: Mark for delete
+				SetMarkForDestroy();
 			}
 	});
 

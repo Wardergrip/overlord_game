@@ -47,6 +47,8 @@ public:
 	GameObject* GetParent() const { return m_pParentObject; }
 
 	void SetOnTriggerCallBack(PhysicsCallback callback);
+	bool IsMarkedForDestroy() const { return m_MarkForDestroy; }
+	void SetMarkForDestroy() { m_MarkForDestroy = true; }
 
 #pragma region
 	template <class T>
@@ -159,7 +161,7 @@ private:
 	std::vector<GameObject*> m_pChildren{};
 	std::vector<BaseComponent*> m_pComponents{};
 
-	bool m_IsInitialized{}, m_IsActive{};
+	bool m_IsInitialized{}, m_IsActive{}, m_MarkForDestroy{};
 	GameScene* m_pParentScene{};
 	GameObject* m_pParentObject{};
 	TransformComponent* m_pTransform{};

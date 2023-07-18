@@ -147,6 +147,14 @@ void GameScene::RootUpdate()
 	}
 
 	m_pPhysxProxy->Update(m_SceneContext);
+
+	for (auto pChild : m_pChildren)
+	{
+		if (pChild->IsMarkedForDestroy())
+		{
+			RemoveChild(pChild,true);
+		}
+	}
 }
 
 void GameScene::RootDraw()
