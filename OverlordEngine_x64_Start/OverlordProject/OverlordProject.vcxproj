@@ -93,6 +93,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Prefabs\BoltPrefab.cpp" />
     <ClCompile Include="Components\BoltsBoxComponent.cpp" />
     <ClCompile Include="Components\CharacterComponent.cpp" />
     <ClCompile Include="Materials\DiffuseMaterial_Shadow_Skinned.cpp" />
@@ -127,6 +128,7 @@
     <ClCompile Include="Scenes\Week 7\PickingScene.cpp" />
     <ClCompile Include="Scenes\Week 8\ShadowMappingScene.cpp" />
     <ClCompile Include="Scenes\Week 9\ParticleScene.cpp" />
+    <ClCompile Include="Components\ScoreComponent.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
@@ -152,6 +154,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Prefabs\BoltPrefab.h" />
     <ClInclude Include="Components\BoltsBoxComponent.h" />
     <ClInclude Include="Components\CharacterComponent.h" />
     <ClInclude Include="Materials\DiffuseMaterial_Shadow_Skinned.h" />
@@ -186,6 +189,7 @@
     <ClInclude Include="Scenes\Week 7\PickingScene.h" />
     <ClInclude Include="Scenes\Week 8\ShadowMappingScene.h" />
     <ClInclude Include="Scenes\Week 9\ParticleScene.h" />
+    <ClInclude Include="Components\ScoreComponent.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Scenes\Week 4\UberMaterialScene.h" />

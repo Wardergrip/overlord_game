@@ -10,10 +10,15 @@ public:
 	BoltsBoxComponent& operator=(const BoltsBoxComponent& other) = delete;
 	BoltsBoxComponent& operator=(BoltsBoxComponent&& other) noexcept = delete;
 
-	void BreakSequence();
+	void StartDebugTimer() { m_DebugTimer = true; }
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
-	//void Update(const SceneContext& sceneContext) override;
+	void Update(const SceneContext& sceneContext) override;
 
+private:
+	void BreakSequence();
+
+	bool m_DebugTimer{ false };
+	float m_DebugTimeElapsed{ 0.0f };
 };
 

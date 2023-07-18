@@ -9,6 +9,8 @@
 #include "Components/CharacterAnimControllerComponent.h"
 #include "Components/TextComponent.h"
 #include "Prefabs/CubePrefab.h"
+#include "Components/BoltsBoxComponent.h"
+#include "Prefabs/BoltPrefab.h"
 
 void TestScene::Initialize()
 {
@@ -44,15 +46,17 @@ void TestScene::Initialize()
 	m_pTagbox = AddChild(new CubePrefab());
 	m_BoneTransformIdx = 0;
 	m_pTagbox->GetTransform()->Scale(0.1f);
+
+	AddChild(new BoltPrefab())->GetTransform()->Translate(0, 10, 10);
 }
 
 void TestScene::OnGUI()
 {
 	if (m_pCharComp) m_pCharComp->DrawImGui();
-	ImGui::DragInt("BoneTransformIdx", &m_BoneTransformIdx, 1.0f, 0, static_cast<int>(m_pRatchedModel->GetAnimator()->GetBoneTransforms().size() - 1));
-	auto x = m_pRatchedModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,1) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().x*/;
-	auto y = m_pRatchedModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,2) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().y*/;
-	auto z = m_pRatchedModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,3) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().z*/;
+	ImGui::DragInt("BoneTransformIdx", &m_BoneTransformIdx, 1.0f, 0, static_cast<int>(m_pRatchetModel->GetAnimator()->GetBoneTransforms().size() - 1));
+	auto x = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,1) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().x*/;
+	auto y = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,2) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().y*/;
+	auto z = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,3) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().z*/;
 	m_pTagbox->GetTransform()->Translate(x,y,z);
 }
 
@@ -71,6 +75,7 @@ void TestScene::AddPlayerToScene()
 	characterDesc.actionId_Jump = CharacterJump;
 
 	m_pPlayer = AddChild(new GameObject());
+	m_pPlayer->SetTag(L"Player");
 	m_pCharComp = m_pPlayer->AddComponent(new CharacterComponent(characterDesc));
 	m_pPlayer->GetTransform()->Translate(0.f, 5.f, 0.f);
 	m_pCharComp->GetCharacterCamera()->GetTransform()->Translate(DirectX::XMVECTOR{0, 5, -10.f});
@@ -111,7 +116,7 @@ void TestScene::AddPlayerToScene()
 
 	pRatchet->AddComponent(new CharacterAnimControllerComponent(m_pCharComp, pRatchetModel->GetAnimator()));
 	//pRatchetModel->GetAnimator()->GetBoneTransforms()
-	m_pRatchedModel = pRatchetModel;
+	m_pRatchetModel = pRatchetModel;
 }
 
 GameObject* TestScene::AddBoxToScene(const DirectX::XMVECTOR& pos)
@@ -133,10 +138,8 @@ GameObject* TestScene::AddBoxToScene(const DirectX::XMVECTOR& pos)
 	auto boxRb = pBoxObj->AddComponent(new RigidBodyComponent());
 	boxRb->AddCollider(PxConvexMeshGeometry{ pPxConvexMesh,PxMeshScale({ scale,scale,scale })}, *pBoxMat);
 	boxRb->AddCollider(PxConvexMeshGeometry{ pPxConvexMesh,PxMeshScale({triggerScale,triggerScale,triggerScale}) }, *pBoxMat, true);
-	/*pBoxObj->SetOnTriggerCallBack([&](GameObject* pTriggerObject, GameObject* pOtherObject, PxTriggerAction action)
-		{
-			
-		});*/
+
+	pBoxObj->AddComponent(new BoltsBoxComponent())->StartDebugTimer();
 
 	return pBoxObj;
 }

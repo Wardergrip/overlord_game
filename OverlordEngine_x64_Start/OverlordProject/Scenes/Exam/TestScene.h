@@ -47,6 +47,6 @@ private:
 	GameObject* AddBoxToScene(const DirectX::XMVECTOR& pos);
 
 	int m_BoneTransformIdx;
-	ModelComponent* m_pRatchedModel;
+	ModelComponent* m_pRatchetModel;
 	GameObject* m_pTagbox;
 };
