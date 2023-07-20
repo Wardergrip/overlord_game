@@ -1,6 +1,7 @@
 #pragma once
 
 class CharacterComponent;
+class TextComponent;
 class TestScene : public GameScene
 {
 public:
@@ -41,7 +42,7 @@ private:
 	std::vector<RigidBodyComponent*> m_pLevelColliders;
 	CameraComponent* m_pCameraComp;
 
-	void AddPlayerToScene();
+	void AddPlayerToScene(TextComponent* pBoltsTextComp);
 	void AddLevelVisual();
 	void AddLevelHitbox();
 	GameObject* AddBoxToScene(const DirectX::XMVECTOR& pos);

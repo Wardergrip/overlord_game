@@ -1,8 +1,9 @@
 #pragma once
+class TextComponent;
 class ScoreComponent final : public BaseComponent
 {
 public:
-	ScoreComponent();
+	ScoreComponent(TextComponent* pBoltsTextComp);
 	~ScoreComponent() override = default;
 
 	ScoreComponent(const ScoreComponent& other) = delete;
@@ -12,7 +13,11 @@ public:
 
 	void AddBolts(int bolts);
 
+protected:
+	void Initialize(const SceneContext& sceneContext) override;
+
 private:
 	int m_Bolts;
+	TextComponent* m_pBoltsTextComp;
 };
 

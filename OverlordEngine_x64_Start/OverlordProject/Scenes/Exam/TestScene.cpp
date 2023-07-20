@@ -11,6 +11,7 @@
 #include "Prefabs/CubePrefab.h"
 #include "Components/BoltsBoxComponent.h"
 #include "Prefabs/BoltPrefab.h"
+#include "Components/ScoreComponent.h"
 
 void TestScene::Initialize()
 {
@@ -26,14 +27,14 @@ void TestScene::Initialize()
 	//AddLevelVisual();
 	//AddLevelHitbox();
 
-	AddPlayerToScene();
-
 	auto boltsHudObj = AddChild(new GameObject());
 	boltsHudObj->AddComponent(new SpriteComponent(L"Textures/BoltsHUD.png", DirectX::XMFLOAT2{1.f,0.f}));
 	boltsHudObj->GetTransform()->Translate(m_SceneContext.windowWidth, 0, .9f);
 
 	auto boltsAmountObj = AddChild(new GameObject());
-	boltsAmountObj->AddComponent(new TextComponent(pFont, L"000000", DirectX::XMFLOAT2{m_SceneContext.windowWidth - 400, 0}, DirectX::XMFLOAT4{251 / 255.f, 218.f / 255.f, 127 / 255.f, 1.f}));
+	auto boltText = boltsAmountObj->AddComponent(new TextComponent(pFont, L"0", DirectX::XMFLOAT2{m_SceneContext.windowWidth - 200, 10}, DirectX::XMFLOAT4{251 / 255.f, 218.f / 255.f, 127 / 255.f, 1.f}));
+
+	AddPlayerToScene(boltText);
 
 	AddBoxToScene(XMVECTOR{ 0,10,0 });
 
@@ -60,7 +61,7 @@ void TestScene::OnGUI()
 	m_pTagbox->GetTransform()->Translate(x,y,z);
 }
 
-void TestScene::AddPlayerToScene()
+void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
 {
 
 	//Ground Plane	
@@ -76,6 +77,7 @@ void TestScene::AddPlayerToScene()
 
 	m_pPlayer = AddChild(new GameObject());
 	m_pPlayer->SetTag(L"Player");
+	m_pPlayer->AddComponent(new ScoreComponent(pBoltsTextComp));
 	m_pCharComp = m_pPlayer->AddComponent(new CharacterComponent(characterDesc));
 	m_pPlayer->GetTransform()->Translate(0.f, 5.f, 0.f);
 	m_pCharComp->GetCharacterCamera()->GetTransform()->Translate(DirectX::XMVECTOR{0, 5, -10.f});
