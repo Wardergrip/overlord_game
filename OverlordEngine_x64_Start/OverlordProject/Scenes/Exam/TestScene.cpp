@@ -47,7 +47,7 @@ void TestScene::Initialize()
 	m_BoneTransformIdx = 0;
 	m_pTagbox->GetTransform()->Scale(0.1f);
 
-	AddChild(new BoltPrefab())->GetTransform()->Translate(0, 10, 10);
+	AddChild(new BoltPrefab(m_pPlayer))->GetTransform()->Translate(0, 10, 10);
 }
 
 void TestScene::OnGUI()
@@ -139,7 +139,7 @@ GameObject* TestScene::AddBoxToScene(const DirectX::XMVECTOR& pos)
 	boxRb->AddCollider(PxConvexMeshGeometry{ pPxConvexMesh,PxMeshScale({ scale,scale,scale })}, *pBoxMat);
 	boxRb->AddCollider(PxConvexMeshGeometry{ pPxConvexMesh,PxMeshScale({triggerScale,triggerScale,triggerScale}) }, *pBoxMat, true);
 
-	pBoxObj->AddComponent(new BoltsBoxComponent())->StartDebugTimer();
+	pBoxObj->AddComponent(new BoltsBoxComponent(m_pPlayer))->StartDebugTimer();
 
 	return pBoxObj;
 }

@@ -43,6 +43,7 @@
     <ClCompile Include="Components\BoltsBoxComponent.cpp" />
     <ClCompile Include="Prefabs\BoltPrefab.cpp" />
     <ClCompile Include="Components\ScoreComponent.cpp" />
+    <ClCompile Include="Components\BoltComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -86,5 +87,6 @@
     <ClInclude Include="Components\BoltsBoxComponent.h" />
     <ClInclude Include="Prefabs\BoltPrefab.h" />
     <ClInclude Include="Components\ScoreComponent.h" />
+    <ClInclude Include="Components\BoltComponent.h" />
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 class BoltPrefab final : public GameObject
 {
 public:
-	BoltPrefab() = default;
+	BoltPrefab(GameObject* pPlayer);
 	~BoltPrefab() override = default;
 	BoltPrefab(const BoltPrefab& other) = delete;
 	BoltPrefab(BoltPrefab&& other) noexcept = delete;

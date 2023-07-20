@@ -99,7 +99,8 @@ void MainGame::OnGamePreparing(GameContext& gameContext)
 
 void MainGame::Initialize()
 {
-
+	// Seed is amount of seconds passed since 1970 Jan 1st
+	srand(static_cast<unsigned int>(time(0)));
 #ifdef W3
 	SceneManager::Get()->AddGameScene(new MinionScene());
 	SceneManager::Get()->AddGameScene(new ComponentTestScene());

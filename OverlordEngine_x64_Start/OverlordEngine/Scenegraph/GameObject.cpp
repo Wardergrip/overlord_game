@@ -81,6 +81,19 @@ void GameObject::RootUpdate(const SceneContext& sceneContext)
 	{
 		pChild->RootUpdate(sceneContext);
 	}
+
+	std::vector<GameObject*> pChildrenToBeDestroyed;
+	for (auto pChild : m_pChildren)
+	{
+		if (pChild->IsMarkedForDestroy())
+		{
+			pChildrenToBeDestroyed.emplace_back(pChild);
+		}
+	}
+	for (auto pChildToBeDestroyed : pChildrenToBeDestroyed)
+	{
+		RemoveChild(pChildToBeDestroyed, true);
+	}
 }
 void GameObject::RootDraw(const SceneContext& sceneContext)
 {

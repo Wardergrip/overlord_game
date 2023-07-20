@@ -2,8 +2,8 @@
 class BoltsBoxComponent : public BaseComponent
 {
 public:
-	BoltsBoxComponent() = default;
-	~BoltsBoxComponent() override = default;
+	BoltsBoxComponent(GameObject* pPlayer);
+	virtual ~BoltsBoxComponent() = default;
 
 	BoltsBoxComponent(const BoltsBoxComponent& other) = delete;
 	BoltsBoxComponent(BoltsBoxComponent&& other) noexcept = delete;
@@ -20,5 +20,6 @@ private:
 
 	bool m_DebugTimer{ false };
 	float m_DebugTimeElapsed{ 0.0f };
+	GameObject* m_pPlayer;
 };
 

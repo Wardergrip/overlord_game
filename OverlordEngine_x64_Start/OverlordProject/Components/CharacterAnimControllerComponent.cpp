@@ -21,7 +21,7 @@ void CharacterAnimControllerComponent::Update(const SceneContext&)
 	if (std::abs(vel.y) > 0.15f)
 	{
 		SetAnimationClip(1);
-		std::cout << vel.y << '\n';
+		//std::cout << vel.y << '\n';
 	}
 	else if (std::abs(vel.x) > FLT_EPSILON || std::abs(vel.z) > FLT_EPSILON)
 	{

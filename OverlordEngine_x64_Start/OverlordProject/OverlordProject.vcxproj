@@ -93,6 +93,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\BoltComponent.cpp" />
     <ClCompile Include="Prefabs\BoltPrefab.cpp" />
     <ClCompile Include="Components\BoltsBoxComponent.cpp" />
     <ClCompile Include="Components\CharacterComponent.cpp" />
@@ -154,6 +155,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\BoltComponent.h" />
     <ClInclude Include="Prefabs\BoltPrefab.h" />
     <ClInclude Include="Components\BoltsBoxComponent.h" />
     <ClInclude Include="Components\CharacterComponent.h" />

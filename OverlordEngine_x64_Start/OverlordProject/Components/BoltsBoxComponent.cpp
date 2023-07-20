@@ -2,6 +2,11 @@
 #include "BoltsBoxComponent.h"
 #include "Prefabs/BoltPrefab.h"
 
+BoltsBoxComponent::BoltsBoxComponent(GameObject* pPlayer)
+	:m_pPlayer{pPlayer}
+{
+}
+
 void BoltsBoxComponent::Initialize(const SceneContext& /*sceneContext*/)
 {
 	GetGameObject()->SetOnTriggerCallBack([&](GameObject* /*pTriggerObject*/, GameObject* pOtherObject, PxTriggerAction /*action*/)
@@ -48,14 +53,14 @@ void BoltsBoxComponent::BreakSequence()
 	//pEmitObj->AddComponent(new ParticleEmitterComponent(L"Textures/Bolt.png", settings, 50));
 	//pEmitObj->GetTransform()->Translate(thisObj->GetTransform()->GetWorldPosition());
 
-	size_t amount = (rand() % 10) + 1;
+	size_t amount = static_cast<size_t>(rand() % 10) + size_t{1};
 	for (size_t i{ 0 }; i < amount; ++i)
 	{
-		auto pBolt = GetScene()->AddChild(new BoltPrefab());
-		const auto& thisPos = GetGameObject()->GetTransform()->GetPosition();
+		auto pBolt = scene->AddChild(new BoltPrefab(m_pPlayer));
+		const auto& thisPos = thisObj->GetTransform()->GetPosition();
 		XMFLOAT3 offset{ (rand() % 101) / 100.f,(rand() % 101) / 100.f, (rand() % 101) / 100.f };
 		pBolt->GetTransform()->Translate(thisPos.x + offset.x, thisPos.y + offset.y, thisPos.z + offset.z);
 	}
 
-	scene->RemoveChild(thisObj, true);
+	thisObj->SetMarkForDestroy();
 }

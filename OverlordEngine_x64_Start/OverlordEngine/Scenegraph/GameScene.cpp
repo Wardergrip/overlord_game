@@ -148,12 +148,17 @@ void GameScene::RootUpdate()
 
 	m_pPhysxProxy->Update(m_SceneContext);
 
+	std::vector<GameObject*> pChildrenToBeDestroyed;
 	for (auto pChild : m_pChildren)
 	{
 		if (pChild->IsMarkedForDestroy())
 		{
-			RemoveChild(pChild,true);
+			pChildrenToBeDestroyed.emplace_back(pChild);
 		}
+	}
+	for (auto pChildToBeDestroyed : pChildrenToBeDestroyed)
+	{
+		RemoveChild(pChildToBeDestroyed, true);
 	}
 }
 
