@@ -45,6 +45,7 @@ private:
 	void AddPlayerToScene(TextComponent* pBoltsTextComp);
 	void AddLevelVisual();
 	void AddLevelHitbox();
+	void AddFlagToScene();
 	GameObject* AddBoxToScene(const DirectX::XMVECTOR& pos);
 
 	int m_BoneTransformIdx;

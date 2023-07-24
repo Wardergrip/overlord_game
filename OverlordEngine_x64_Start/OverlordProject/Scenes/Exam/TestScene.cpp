@@ -12,6 +12,7 @@
 #include "Components/BoltsBoxComponent.h"
 #include "Prefabs/BoltPrefab.h"
 #include "Components/ScoreComponent.h"
+#include "Components/WeaponComponent.h"
 
 void TestScene::Initialize()
 {
@@ -35,6 +36,7 @@ void TestScene::Initialize()
 	auto boltText = boltsAmountObj->AddComponent(new TextComponent(pFont, L"0", DirectX::XMFLOAT2{m_SceneContext.windowWidth - 200, 10}, DirectX::XMFLOAT4{251 / 255.f, 218.f / 255.f, 127 / 255.f, 1.f}));
 
 	AddPlayerToScene(boltText);
+	AddFlagToScene();
 
 	AddBoxToScene(XMVECTOR{ 0,10,0 });
 
@@ -117,7 +119,7 @@ void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
 	pRatchet->GetTransform()->Rotate(0, 180, 0);
 
 	pRatchet->AddComponent(new CharacterAnimControllerComponent(m_pCharComp, pRatchetModel->GetAnimator()));
-	//pRatchetModel->GetAnimator()->GetBoneTransforms()
+	//const std::vector<XMFLOAT4X4>& r = pRatchetModel->GetAnimator()->GetBoneTransforms();
 	m_pRatchetModel = pRatchetModel;
 }
 
@@ -161,6 +163,18 @@ void TestScene::AddLevelVisual()
 		pMat->SetDiffuseTexture(filePath.str());
 		pModel->SetMaterial(pMat, submeshid);
 	}
+}
+void TestScene::AddFlagToScene()
+{
+	constexpr float scale = 0.05f;
+
+	auto pFlag = AddChild(new GameObject());
+	pFlag->GetTransform()->Scale(scale);
+	pFlag->AddComponent(new WeaponComponent(m_pRatchetModel, 22));
+	auto pFlagModel = pFlag->AddComponent(new ModelComponent(L"Meshes/Flag.ovm"));
+	auto pFlagDiff = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow>();
+	pFlagDiff->SetDiffuseTexture(L"Textures/RedFlag.png");
+	pFlagModel->SetMaterial(pFlagDiff);
 }
 
 void TestScene::AddLevelHitbox()

@@ -155,6 +155,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\WeaponComponent.h" />
     <ClInclude Include="Misc\AnimationState.h" />
     <ClInclude Include="Components\BoltComponent.h" />
     <ClInclude Include="Misc\IdleAnimationState.h" />
