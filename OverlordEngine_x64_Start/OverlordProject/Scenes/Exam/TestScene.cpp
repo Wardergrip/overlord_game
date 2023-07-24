@@ -48,7 +48,7 @@ void TestScene::Initialize()
 	m_BoneTransformIdx = 0;
 	m_pTagbox->GetTransform()->Scale(0.1f);
 
-	AddChild(new BoltPrefab(m_pPlayer))->GetTransform()->Translate(0, 10, 10);
+	//AddChild(new BoltPrefab(m_pPlayer))->GetTransform()->Translate(0, 10, 10);
 }
 
 void TestScene::OnGUI()

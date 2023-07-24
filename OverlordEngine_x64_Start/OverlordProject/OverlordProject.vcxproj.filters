@@ -88,5 +88,9 @@
     <ClInclude Include="Prefabs\BoltPrefab.h" />
     <ClInclude Include="Components\ScoreComponent.h" />
     <ClInclude Include="Components\BoltComponent.h" />
+    <ClInclude Include="Misc\AnimationState.h" />
+    <ClInclude Include="Misc\IdleAnimationState.h" />
+    <ClInclude Include="Misc\JumpAnimationState.h" />
+    <ClInclude Include="Misc\RunforwardAnimationState.h" />
   </ItemGroup>
 </Project>

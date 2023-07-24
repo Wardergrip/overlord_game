@@ -155,7 +155,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Misc\AnimationState.h" />
     <ClInclude Include="Components\BoltComponent.h" />
+    <ClInclude Include="Misc\IdleAnimationState.h" />
+    <ClInclude Include="Misc\JumpAnimationState.h" />
+    <ClInclude Include="Misc\RunforwardAnimationState.h" />
     <ClInclude Include="Prefabs\BoltPrefab.h" />
     <ClInclude Include="Components\BoltsBoxComponent.h" />
     <ClInclude Include="Components\CharacterComponent.h" />
