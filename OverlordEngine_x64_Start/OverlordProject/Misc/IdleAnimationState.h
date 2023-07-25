@@ -20,8 +20,10 @@ public:
 	{
 		m_pCharAnim->SetAnimationClip(CharacterAnimControllerComponent::Idle);
 	}
-	virtual AnimationState* OnHandle() override
+	virtual AnimationState* OnHandle(const SceneContext&) override
 	{ 
+		if (m_pCharAnim->GetCharacterComponent()->GetIsMeleeing()) return m_pCharAnim->GetMeleeAnimState();
+
 		const auto& vel = m_pCharAnim->GetCharacterComponent()->GetTotalVelocity();
 		if (std::abs(vel.y) > 0.15f)
 		{

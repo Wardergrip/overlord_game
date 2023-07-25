@@ -76,6 +76,7 @@ void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
 	characterDesc.actionId_MoveLeft = CharacterMoveLeft;
 	characterDesc.actionId_MoveRight = CharacterMoveRight;
 	characterDesc.actionId_Jump = CharacterJump;
+	characterDesc.actionId_Melee = CharacterMelee;
 
 	m_pPlayer = AddChild(new GameObject());
 	m_pPlayer->SetTag(L"Player");
@@ -98,6 +99,9 @@ void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
 	m_SceneContext.pInput->AddInputAction(inputAction);
 
 	inputAction = InputAction(CharacterJump, InputState::pressed, VK_SPACE, -1, XINPUT_GAMEPAD_A);
+	m_SceneContext.pInput->AddInputAction(inputAction);
+
+	inputAction = InputAction(CharacterMelee, InputState::pressed, 'G');
 	m_SceneContext.pInput->AddInputAction(inputAction);
 
 	// Model

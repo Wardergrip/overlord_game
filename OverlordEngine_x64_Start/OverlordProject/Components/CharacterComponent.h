@@ -20,6 +20,12 @@ public:
 	CameraComponent* GetCharacterCamera() { return m_pCameraComponent; }
 	ControllerComponent* GetControllerCamera() { return m_pControllerComponent; }
 
+	bool GetAllowInput() const { return m_AllowInput; }
+	void SetAllowInput(bool state) { m_AllowInput = state; }
+
+	bool GetIsMeleeing() const { return m_IsMeleeing; }
+	void SetIsMeeling(bool state) { m_IsMeleeing = state; }
+	 
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
 	void Update(const SceneContext& sceneContext) override;
@@ -27,6 +33,8 @@ protected:
 private:
 	CameraComponent* m_pCameraComponent{};
 	ControllerComponent* m_pControllerComponent{};
+	bool m_AllowInput;
+	bool m_IsMeleeing;
 
 	CharacterDesc m_CharacterDesc;
 	float m_TotalPitch{}, m_TotalYaw{};				//Total camera Pitch(X) and Yaw(Y) rotation

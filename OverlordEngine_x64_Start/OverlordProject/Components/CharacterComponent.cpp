@@ -5,6 +5,8 @@ CharacterComponent::CharacterComponent(const CharacterDesc& characterDesc)
 	:m_CharacterDesc{ characterDesc }
 	,m_MoveAcceleration(characterDesc.maxMoveSpeed / characterDesc.moveAccelerationTime)
 	,m_FallAcceleration(characterDesc.maxFallSpeed / characterDesc.fallAccelerationTime)
+	,m_AllowInput{true}
+	,m_IsMeleeing{false}
 {
 }
 
@@ -81,6 +83,15 @@ void CharacterComponent::Update(const SceneContext& sceneContext)
 		move.x = sceneContext.pInput->IsActionTriggered(m_CharacterDesc.actionId_MoveRight) ? 1.0f : (sceneContext.pInput->IsActionTriggered(m_CharacterDesc.actionId_MoveLeft) ? -1.0f : 0.0f);
 		//Optional: if move.x is near zero (abs(move.x) < epsilon), you could use the Left ThumbStickPosition.x for movement
 
+		if (sceneContext.pInput->IsActionTriggered(m_CharacterDesc.actionId_Melee))
+		{
+			m_IsMeleeing = true;
+		}
+		else if (m_AllowInput == false)
+		{
+			m_IsMeleeing = false;
+		}
+
 		//## Input Gathering (look)
 		XMFLOAT2 look{ 0.f, 0.f };
 		//Only if the Left Mouse Button is Down >
@@ -117,7 +128,7 @@ void CharacterComponent::Update(const SceneContext& sceneContext)
 
 		//********
 		//MOVEMENT
-
+		if (m_AllowInput == false) return;
 		//## Horizontal Velocity (Forward/Backward/Right/Left)
 		//Calculate the current move acceleration for this frame (m_MoveAcceleration * ElapsedTime)
 		const float curAcceleration{ m_MoveAcceleration * sceneContext.pGameTime->GetElapsed() };

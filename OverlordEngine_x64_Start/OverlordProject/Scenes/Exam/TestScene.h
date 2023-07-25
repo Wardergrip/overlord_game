@@ -34,7 +34,8 @@ private:
 		CharacterMoveRight,
 		CharacterMoveForward,
 		CharacterMoveBackward,
-		CharacterJump
+		CharacterJump,
+		CharacterMelee
 	};
 	GameObject* m_pPlayer;
 	CharacterComponent* m_pCharComp;

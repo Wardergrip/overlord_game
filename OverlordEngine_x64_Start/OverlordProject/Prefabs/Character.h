@@ -29,6 +29,7 @@ struct CharacterDesc
 	int actionId_MoveForward{ -1 };
 	int actionId_MoveBackward{ -1 };
 	int actionId_Jump{ -1 };
+	int actionId_Melee{ -1 };
 };
 
 class Character : public GameObject

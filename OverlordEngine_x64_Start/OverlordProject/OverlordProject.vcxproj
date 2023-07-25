@@ -160,6 +160,7 @@
     <ClInclude Include="Components\BoltComponent.h" />
     <ClInclude Include="Misc\IdleAnimationState.h" />
     <ClInclude Include="Misc\JumpAnimationState.h" />
+    <ClInclude Include="Misc\MeleeAnimationState.h" />
     <ClInclude Include="Misc\RunforwardAnimationState.h" />
     <ClInclude Include="Prefabs\BoltPrefab.h" />
     <ClInclude Include="Components\BoltsBoxComponent.h" />

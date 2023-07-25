@@ -15,7 +15,7 @@ public:
 	const AnimationState& operator=(const AnimationState& other) = delete;
 
 	virtual void OnEnter() {}
-	virtual AnimationState* OnHandle() { return this; }
+	virtual AnimationState* OnHandle(const SceneContext&) { return this; }
 	virtual void OnExit() {}
 protected:
 	CharacterAnimControllerComponent* m_pCharAnim;

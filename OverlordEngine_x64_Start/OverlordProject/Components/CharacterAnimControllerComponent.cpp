@@ -7,6 +7,7 @@
 #include "Misc/IdleAnimationState.h"
 #include "Misc/JumpAnimationState.h"
 #include "Misc/RunforwardAnimationState.h"
+#include "Misc/MeleeAnimationState.h"
 
 CharacterAnimControllerComponent::CharacterAnimControllerComponent(CharacterComponent* pCharacter, ModelAnimator* pModelAnim)
 	:m_pCharacter{pCharacter}
@@ -16,6 +17,7 @@ CharacterAnimControllerComponent::CharacterAnimControllerComponent(CharacterComp
 	,m_pIdleAnimationState{new IdleAnimationState(this)}
 	,m_pJumpAnimationState{new JumpAnimationState(this)}
 	,m_pRunforwardAnimationState{new RunforwardAnimationState(this)}
+	,m_pMeleeAnimationState{new MeleeAnimationState(this)}
 {
 	m_pCurrentAnimationState = GetIdleAnimState();
 	m_pCurrentAnimationState->OnEnter();
@@ -25,30 +27,14 @@ void CharacterAnimControllerComponent::Initialize(const SceneContext&)
 {
 }
 
-void CharacterAnimControllerComponent::Update(const SceneContext&)
+void CharacterAnimControllerComponent::Update(const SceneContext& sceneContext)
 {
-
 	auto previousState = m_pCurrentAnimationState;
-	auto newState = m_pCurrentAnimationState->OnHandle();
+	auto newState = m_pCurrentAnimationState->OnHandle(sceneContext);
 	if (newState == previousState) return;
 	previousState->OnExit();
 	m_pCurrentAnimationState = newState;
 	m_pCurrentAnimationState->OnEnter();
-
-	//const auto& vel = m_pCharacter->GetTotalVelocity();
-	//if (std::abs(vel.y) > 0.15f)
-	//{
-	//	SetAnimationClip(Jump);
-	//	//std::cout << vel.y << '\n';
-	//}
-	//else if (std::abs(vel.x) > FLT_EPSILON || std::abs(vel.z) > FLT_EPSILON)
-	//{
-	//	SetAnimationClip(RunForward);
-	//}
-	//else
-	//{
-	//	SetAnimationClip(Idle);
-	//}
 }
 
 void CharacterAnimControllerComponent::SetAnimationClip(AnimationClipId id, bool isReversed, float speed)
@@ -60,5 +46,4 @@ void CharacterAnimControllerComponent::SetAnimationClip(AnimationClipId id, bool
 	m_pModelAnim->SetPlayReversed(isReversed);
 	m_pModelAnim->SetAnimationSpeed(speed);
 	m_pModelAnim->Play();
-	std::cout << "Changing animationclip id\n";
 }

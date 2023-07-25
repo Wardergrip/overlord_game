@@ -21,7 +21,7 @@ public:
 	{
 		m_pCharAnim->SetAnimationClip(CharacterAnimControllerComponent::Jump, false, 2.f);
 	}
-	virtual AnimationState* OnHandle() override
+	virtual AnimationState* OnHandle(const SceneContext&) override
 	{
 		const auto& vel = m_pCharAnim->GetCharacterComponent()->GetTotalVelocity();
 		if (m_GoingDown && std::abs(vel.y) < 0.15f)

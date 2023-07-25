@@ -93,5 +93,6 @@
     <ClInclude Include="Misc\JumpAnimationState.h" />
     <ClInclude Include="Misc\RunforwardAnimationState.h" />
     <ClInclude Include="Components\WeaponComponent.h" />
+    <ClInclude Include="Misc\MeleeAnimationState.h" />
   </ItemGroup>
 </Project>

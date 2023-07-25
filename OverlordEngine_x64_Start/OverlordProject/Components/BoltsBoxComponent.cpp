@@ -33,9 +33,9 @@ void BoltsBoxComponent::Update(const SceneContext& sceneContext)
 
 void BoltsBoxComponent::BreakSequence()
 {
+#if 1
 	std::cout << "BreakSeq currently disabled\n";
-	return;
-#if 0
+#else
 	auto thisObj = GetGameObject();
 	auto scene = thisObj->GetScene();
 

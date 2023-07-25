@@ -21,8 +21,10 @@ public:
 		bool reverse{ m_pCharAnim->GetCharacterComponent()->GetTotalVelocity().x < 0.f };
 		m_pCharAnim->SetAnimationClip(CharacterAnimControllerComponent::RunForward, reverse);
 	}
-	virtual AnimationState* OnHandle() override
+	virtual AnimationState* OnHandle(const SceneContext&) override
 	{
+		if (m_pCharAnim->GetCharacterComponent()->GetIsMeleeing()) return m_pCharAnim->GetMeleeAnimState();
+
 		const auto& vel = m_pCharAnim->GetCharacterComponent()->GetTotalVelocity();
 		if (std::abs(vel.x) < FLT_EPSILON || std::abs(vel.z) < FLT_EPSILON)
 		{
@@ -32,11 +34,17 @@ public:
 		{
 			return m_pCharAnim->GetJumpAnimState();
 		}
-		else
+		else if (std::abs(vel.x) > FLT_EPSILON)
 		{
 			bool reverse{ vel.x < 0.f };
 			m_pCharAnim->SetAnimationClip(CharacterAnimControllerComponent::RunForward, reverse);
 		}
+		else if (std::abs(vel.z) > FLT_EPSILON)
+		{
+			bool reverse{ vel.z < 0.f };
+			m_pCharAnim->SetAnimationClip(CharacterAnimControllerComponent::StrafeRight, reverse);
+		}
+		std::cout << "Vel.x: " << vel.x << " Vel.z:" << vel.z << "\n";
 		return this;
 	}
 	virtual void OnExit() override
