@@ -13,6 +13,9 @@
 #include "Prefabs/BoltPrefab.h"
 #include "Components/ScoreComponent.h"
 #include "Components/WeaponComponent.h"
+#include "Materials/Post/PostPixelated.h"
+
+//#define ENABLE_POSTPROCESSING
 
 void TestScene::Initialize()
 {
@@ -51,6 +54,16 @@ void TestScene::Initialize()
 	m_pTagbox->GetTransform()->Scale(0.1f);
 
 	//AddChild(new BoltPrefab(m_pPlayer))->GetTransform()->Translate(0, 10, 10);
+
+#ifdef ENABLE_POSTPROCESSING
+	// POST PROCESSING
+	auto pPostPixelated = MaterialManager::Get()->CreateMaterial<PostPixelated>();
+	const float windowWidth{ 1280 };
+	const float windowHeight{ 720 };
+	const float scaleFactor{ 0.6f };
+	pPostPixelated->SetCollRow(windowWidth * scaleFactor, windowHeight * scaleFactor);
+	AddPostProcessingEffect(pPostPixelated);
+#endif
 }
 
 void TestScene::OnGUI()

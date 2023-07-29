@@ -94,6 +94,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Components\BoltComponent.cpp" />
+    <ClCompile Include="Materials\Post\PostPixelated.cpp" />
     <ClCompile Include="Prefabs\BoltPrefab.cpp" />
     <ClCompile Include="Components\BoltsBoxComponent.cpp" />
     <ClCompile Include="Components\CharacterComponent.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Misc\JumpAnimationState.h" />
     <ClInclude Include="Misc\MeleeAnimationState.h" />
     <ClInclude Include="Misc\RunforwardAnimationState.h" />
+    <ClInclude Include="Materials\Post\PostPixelated.h" />
     <ClInclude Include="Prefabs\BoltPrefab.h" />
     <ClInclude Include="Components\BoltsBoxComponent.h" />
     <ClInclude Include="Components\CharacterComponent.h" />

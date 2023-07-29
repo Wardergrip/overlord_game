@@ -44,6 +44,7 @@
     <ClCompile Include="Prefabs\BoltPrefab.cpp" />
     <ClCompile Include="Components\ScoreComponent.cpp" />
     <ClCompile Include="Components\BoltComponent.cpp" />
+    <ClCompile Include="Materials\Post\PostPixelated.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainGame.h" />
@@ -94,5 +95,6 @@
     <ClInclude Include="Misc\RunforwardAnimationState.h" />
     <ClInclude Include="Components\WeaponComponent.h" />
     <ClInclude Include="Misc\MeleeAnimationState.h" />
+    <ClInclude Include="Materials\Post\PostPixelated.h" />
   </ItemGroup>
 </Project>
