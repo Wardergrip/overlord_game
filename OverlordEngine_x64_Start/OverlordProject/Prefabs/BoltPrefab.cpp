@@ -38,7 +38,7 @@ void BoltPrefab::Initialize(const SceneContext&)
 				}
 				// TODO: Sounds and stuff
 
-				SetMarkForDestroy();
+				//SetMarkForDestroy(); // -- CRASHES --
 			}
 	});
 
