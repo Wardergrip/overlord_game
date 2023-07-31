@@ -141,9 +141,9 @@ void GameScene::RootUpdate()
 	Update();
 
 	//Root-Scene Update
-	for (const auto pChild : m_pChildren)
+	for (size_t i{0}; i < m_pChildren.size(); ++i)
 	{
-		pChild->RootUpdate(m_SceneContext);
+		m_pChildren[i]->RootUpdate(m_SceneContext);
 	}
 
 	m_pPhysxProxy->Update(m_SceneContext);
