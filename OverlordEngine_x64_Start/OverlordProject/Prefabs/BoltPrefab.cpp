@@ -43,19 +43,4 @@ void BoltPrefab::Initialize(const SceneContext&)
 	});
 
 	GetTransform()->Scale(scale);
-
-	ParticleEmitterSettings settings{};
-	settings.velocity = { 0.f,2.5f,0.f };
-	settings.minSize = 0.1f;
-	settings.maxSize = 0.5f;
-	settings.minEnergy = 1.0f;
-	settings.maxEnergy = 1.0f;
-	settings.minScale = 0.01f;
-	settings.maxScale = 0.05f;
-	settings.minEmitterRadius = 0.8f;
-	settings.maxEmitterRadius = 2.0f;
-	settings.color = { 0.2f,0.78f,1.f, .6f };
-
-	const auto pEmitObj = AddChild(new GameObject);
-	pEmitObj->AddComponent(new ParticleEmitterComponent(L"Textures/SoftBall.png", settings, 10));
 }
