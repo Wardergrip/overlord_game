@@ -11,7 +11,7 @@ BoltPrefab::BoltPrefab(GameObject* pPlayer)
 
 void BoltPrefab::Initialize(const SceneContext&)
 {
-	constexpr float scale{ 1.f };
+	constexpr float scale{ 0.2f };
 	auto pBoltMat = PxGetPhysics().createMaterial(0.5f, 0.5f, 0.f);
 
 	auto pColMat = MaterialManager::Get()->CreateMaterial<ColorMaterial>();
@@ -42,9 +42,20 @@ void BoltPrefab::Initialize(const SceneContext&)
 			}
 	});
 
-	// Random rotation
-	const float xRot{ static_cast<float>(rand() % 360) };
-	const float yRot{ static_cast<float>(rand() % 360) };
-	const float zRot{ static_cast<float>(rand() % 360) };
-	GetTransform()->Rotate(xRot, yRot, zRot);
+	GetTransform()->Scale(scale);
+
+	ParticleEmitterSettings settings{};
+	settings.velocity = { 0.f,2.5f,0.f };
+	settings.minSize = 0.1f;
+	settings.maxSize = 0.5f;
+	settings.minEnergy = 1.0f;
+	settings.maxEnergy = 1.0f;
+	settings.minScale = 0.01f;
+	settings.maxScale = 0.05f;
+	settings.minEmitterRadius = 0.8f;
+	settings.maxEmitterRadius = 2.0f;
+	settings.color = { 0.2f,0.78f,1.f, .6f };
+
+	const auto pEmitObj = AddChild(new GameObject);
+	pEmitObj->AddComponent(new ParticleEmitterComponent(L"Textures/SoftBall.png", settings, 10));
 }

@@ -44,7 +44,7 @@ public:
 			bool reverse{ vel.z < 0.f };
 			m_pCharAnim->SetAnimationClip(CharacterAnimControllerComponent::StrafeRight, reverse);
 		}
-		std::cout << "Vel.x: " << vel.x << " Vel.z:" << vel.z << "\n";
+		//std::cout << "Vel.x: " << vel.x << " Vel.z:" << vel.z << "\n";
 		return this;
 	}
 	virtual void OnExit() override

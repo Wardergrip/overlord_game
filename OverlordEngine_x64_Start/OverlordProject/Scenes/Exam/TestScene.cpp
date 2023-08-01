@@ -14,6 +14,7 @@
 #include "Components/ScoreComponent.h"
 #include "Components/WeaponComponent.h"
 #include "Materials/Post/PostPixelated.h"
+#include "Components/AutokillComponent.h"
 
 //#define ENABLE_POSTPROCESSING
 

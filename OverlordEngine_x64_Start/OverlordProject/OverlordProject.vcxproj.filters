@@ -96,5 +96,6 @@
     <ClInclude Include="Components\WeaponComponent.h" />
     <ClInclude Include="Misc\MeleeAnimationState.h" />
     <ClInclude Include="Materials\Post\PostPixelated.h" />
+    <ClInclude Include="Components\AutokillComponent.h" />
   </ItemGroup>
 </Project>
