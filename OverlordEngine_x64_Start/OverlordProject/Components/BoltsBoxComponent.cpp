@@ -83,7 +83,7 @@ void BoltsBoxComponent::BreakSequence()
 		auto pBolt = scene->AddChild(new BoltPrefab(m_pPlayer));
 		const auto& thisPos = thisObj->GetTransform()->GetPosition();
 		XMFLOAT3 offset{ ((rand() % 101) / 100.f) * offsetMultiplier,((rand() % 101) / 100.f) * offsetMultiplier, ((rand() % 101) / 100.f) * offsetMultiplier };
-		XMFLOAT3 randomRot{ static_cast<float>(rand() % 90),static_cast<float>(rand() % 90) ,static_cast<float>(rand() % 90) };
+		XMFLOAT3 randomRot{ static_cast<float>(rand() % 361),static_cast<float>(rand() % 361) ,static_cast<float>(rand() % 361) };
 		pBolt->GetTransform()->Translate(thisPos.x + offset.x, thisPos.y + offset.y, thisPos.z + offset.z);
 		pBolt->GetTransform()->Rotate(randomRot.x, randomRot.y, randomRot.z);
 	}
