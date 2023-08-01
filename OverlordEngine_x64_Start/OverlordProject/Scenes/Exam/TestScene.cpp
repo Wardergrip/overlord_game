@@ -17,6 +17,7 @@
 #include "Components/AutokillComponent.h"
 
 //#define ENABLE_POSTPROCESSING
+#define ENABLE_BACKGROUNDMUSIC
 
 void TestScene::Initialize()
 {
@@ -55,6 +56,13 @@ void TestScene::Initialize()
 	m_pTagbox->GetTransform()->Scale(0.1f);
 
 	//AddChild(new BoltPrefab(m_pPlayer))->GetTransform()->Translate(0, 10, 10);
+
+#ifdef ENABLE_BACKGROUNDMUSIC
+	const auto pFmod{ SoundManager::Get()->GetSystem() };
+	std::string filePath{ "Resources/Music/RnC3_Veldin_Kyzil_Plateau.mp3" };
+	pFmod->createStream(filePath.c_str(), FMOD_DEFAULT, nullptr, &m_pMusic);
+	pFmod->playSound(m_pMusic, nullptr, false, &m_pChannel);
+#endif
 
 #ifdef ENABLE_POSTPROCESSING
 	// POST PROCESSING

@@ -52,4 +52,7 @@ private:
 	int m_BoneTransformIdx;
 	ModelComponent* m_pRatchetModel;
 	GameObject* m_pTagbox;
+
+	FMOD::Sound* m_pMusic{ nullptr };
+	FMOD::Channel* m_pChannel{ nullptr };
 };

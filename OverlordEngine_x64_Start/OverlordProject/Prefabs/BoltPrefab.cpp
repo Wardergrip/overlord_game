@@ -52,7 +52,7 @@ void BoltPrefab::Initialize(const SceneContext&)
 				if (scoreComp)
 				{
 					scoreComp->AddBolts(1);
-					[[maybe_unused]] auto result = SoundManager::Get()->GetSystem()->playSound(m_pPickupSound, nullptr, false, &m_pChannel);
+					SoundManager::Get()->GetSystem()->playSound(m_pPickupSound, nullptr, false, &m_pChannel);
 					m_pChannel->setVolume(1.f);
 				}
 				else

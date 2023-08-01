@@ -60,6 +60,13 @@ void MenuScene::Initialize()
 	auto pPlayText = new GameObject();
 	auto pTextComp = AddChild(pPlayText)->AddComponent(new TextComponent(pFont, L"Test"));
 	pTextComp->SetPos({ m_SceneContext.windowWidth / 2.f,m_SceneContext.windowHeight / 2.f });
+
+#ifdef ENABLE_BACKGROUNDMUSIC
+	const auto pFmod{ SoundManager::Get()->GetSystem() };
+	std::string filePath{ "Resources/Music/RnC3_Title_Screen.mp3" };
+	pFmod->createStream(filePath.c_str(), FMOD_DEFAULT, nullptr, &m_pMusic);
+	pFmod->playSound(m_pMusic, nullptr, false, &m_pChannel);
+#endif
 }
 
 void MenuScene::Update()
