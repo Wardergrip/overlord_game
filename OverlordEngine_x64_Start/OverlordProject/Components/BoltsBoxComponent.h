@@ -21,5 +21,7 @@ private:
 	bool m_DebugTimer{ false };
 	float m_DebugTimeElapsed{ 0.0f };
 	GameObject* m_pPlayer;
+	FMOD::Sound* m_pBreakSound{ nullptr };
+	FMOD::Channel* m_pChannel{ nullptr };
 };
 

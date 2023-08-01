@@ -10,6 +10,21 @@ BoltsBoxComponent::BoltsBoxComponent(GameObject* pPlayer)
 
 void BoltsBoxComponent::Initialize(const SceneContext& /*sceneContext*/)
 {
+	const auto pFmod{ SoundManager::Get()->GetSystem() };
+	std::string sfxFilepath;
+	int random{ rand() % 2 };
+	switch (random)
+	{
+	case 0:
+		sfxFilepath = "Resources/SFX/CrateBreak_0.mp3";
+		break;
+	case 1:
+		sfxFilepath = "Resources/SFX/CrateBreak_1.mp3";
+		break;
+	}
+	pFmod->createStream(sfxFilepath.c_str(), FMOD_DEFAULT, nullptr, &m_pBreakSound);
+	m_pChannel->setVolume(1.f);
+
 	GetGameObject()->SetOnTriggerCallBack([&](GameObject* /*pTriggerObject*/, GameObject* pOtherObject, PxTriggerAction /*action*/)
 	{
 		if (pOtherObject->GetTag() == L"Weapon")
@@ -34,6 +49,10 @@ void BoltsBoxComponent::Update(const SceneContext& sceneContext)
 
 void BoltsBoxComponent::BreakSequence()
 {
+	const auto pFmod{ SoundManager::Get()->GetSystem() };
+	pFmod->playSound(m_pBreakSound, nullptr, false, &m_pChannel);
+	m_pChannel->setVolume(1.f);
+
 	auto thisObj = GetGameObject();
 	auto scene = thisObj->GetScene();
 
@@ -58,7 +77,7 @@ void BoltsBoxComponent::BreakSequence()
 	pEmitObj->GetTransform()->Translate(objPos.x,objPos.y + 0.5f,objPos.z);
 
 	constexpr float offsetMultiplier{ 2.f };
-	size_t amount = static_cast<size_t>(rand() % 10) + size_t{1};
+	size_t amount = static_cast<size_t>(rand() % 8) + size_t{3};
 	for (size_t i{ 0 }; i < amount; ++i)
 	{
 		auto pBolt = scene->AddChild(new BoltPrefab(m_pPlayer));

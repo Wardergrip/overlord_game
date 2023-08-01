@@ -3,6 +3,7 @@
 #include "Materials/ColorMaterial.h"
 #include "Components/ScoreComponent.h"
 #include "Components/BoltComponent.h"
+#include "Managers/SoundManager.h"
 
 BoltPrefab::BoltPrefab(GameObject* pPlayer)
 {
@@ -18,6 +19,26 @@ void BoltPrefab::Initialize(const SceneContext&)
 	pColMat->SetColor(DirectX::XMFLOAT4{ DirectX::Colors::Orange });
 	auto pBoltModel = AddComponent(new ModelComponent(L"Meshes/Bolt.ovm", false));
 	pBoltModel->SetMaterial(pColMat);
+
+	const auto pFmod{ SoundManager::Get()->GetSystem() };
+	std::string sfxFilepath;
+	int random{ rand() % 3 };
+	switch (random)
+	{
+	default:
+	case 0:
+		sfxFilepath = "Resources/SFX/BoltSFX_0.mp3";
+		break;
+	case 1:
+		sfxFilepath = "Resources/SFX/BoltSFX_1.mp3";
+		break;
+	case 2:
+		sfxFilepath = "Resources/SFX/BoltSFX_2.mp3";
+		break;
+	}
+	//pFmod->createStream(sfxFilepath.c_str(), FMOD_DEFAULT, nullptr, &m_pPickupSound);
+	pFmod->createSound(sfxFilepath.c_str(), FMOD_DEFAULT, nullptr, &m_pPickupSound);
+	m_pChannel->setVolume(1.f);
 	
 	const auto pPxConvexMesh = ContentManager::Load<PxConvexMesh>(L"Meshes/Bolt.ovpc");
 	auto boltRb = AddComponent(new RigidBodyComponent());
@@ -31,6 +52,8 @@ void BoltPrefab::Initialize(const SceneContext&)
 				if (scoreComp)
 				{
 					scoreComp->AddBolts(1);
+					[[maybe_unused]] auto result = SoundManager::Get()->GetSystem()->playSound(m_pPickupSound, nullptr, false, &m_pChannel);
+					m_pChannel->setVolume(1.f);
 				}
 				else
 				{
