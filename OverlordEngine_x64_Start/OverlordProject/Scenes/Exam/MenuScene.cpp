@@ -58,8 +58,12 @@ void MenuScene::Initialize()
 	// Button text
 	auto pFont = ContentManager::Load<SpriteFont>(L"SpriteFonts/Consolas_32.fnt");
 	auto pPlayText = new GameObject();
-	auto pTextComp = AddChild(pPlayText)->AddComponent(new TextComponent(pFont, L"Test"));
-	pTextComp->SetPos({ m_SceneContext.windowWidth / 2.f,m_SceneContext.windowHeight / 2.f });
+	auto pPlayTextComp = AddChild(pPlayText)->AddComponent(new TextComponent(pFont, L"Play"));
+	pPlayTextComp->SetPos({ m_SceneContext.windowWidth * 0.5f - 30.f,m_SceneContext.windowHeight * 0.5f - 10.f });
+
+	auto pExitText = new GameObject();
+	auto pExitTextComp = AddChild(pExitText)->AddComponent(new TextComponent(pFont, L"Exit"));
+	pExitTextComp->SetPos({ m_SceneContext.windowWidth * 0.5f - 30.f,m_SceneContext.windowHeight * 0.5f + 100.f });
 
 #ifdef ENABLE_BACKGROUNDMUSIC
 	const auto pFmod{ SoundManager::Get()->GetSystem() };
