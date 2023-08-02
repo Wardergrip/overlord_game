@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "TestScene.h"
 #include "Materials/ColorMaterial.h"
-#include "Materials/DiffuseMaterial_Skinned.h"
+#include "Materials/DiffuseMaterial_Shadow_Skinned.h"
 #include "Materials/DiffuseMaterial_Shadow.h"
 #include "Materials/DiffuseMaterial.h"
 #include "Materials/SkyBoxMaterial.h"
@@ -30,8 +30,8 @@ void TestScene::Initialize()
 	//auto& physX{ PxGetPhysics() };
 	auto pFont = ContentManager::Load<SpriteFont>(L"SpriteFonts/Consolas_32.fnt");
 
-	//AddLevelVisual();
-	//AddLevelHitbox();
+	AddLevelVisual();
+	AddLevelHitbox();
 
 	auto boltsHudObj = AddChild(new GameObject());
 	boltsHudObj->AddComponent(new SpriteComponent(L"Textures/BoltsHUD.png", DirectX::XMFLOAT2{1.f,0.f}));
@@ -89,7 +89,7 @@ void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
 {
 
 	//Ground Plane	
-	GameSceneExt::CreatePhysXGroundPlane(*this, m_pDefaultMaterial);
+	//GameSceneExt::CreatePhysXGroundPlane(*this, m_pDefaultMaterial);
 
 	//Character
 	CharacterDesc characterDesc{ m_pDefaultMaterial };
@@ -130,9 +130,9 @@ void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
 	auto pRatchet = new GameObject();
 	m_pPlayer->AddChild(pRatchet);
 	auto pRatchetModel = pRatchet->AddComponent(new ModelComponent(L"Meshes/Ratchet/RatchetFixedAnims.ovm"));
-	auto pRatchetMainDiff = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
-	auto pRatchetSubDiff_1 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
-	auto pRatchetSubDiff_2 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Skinned>();
+	auto pRatchetMainDiff = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow_Skinned>();
+	auto pRatchetSubDiff_1 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow_Skinned>();
+	auto pRatchetSubDiff_2 = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow_Skinned>();
 	pRatchetMainDiff->SetDiffuseTexture(L"Textures/Adamantine/Texture0.png");
 	pRatchetSubDiff_1->SetDiffuseTexture(L"Textures/Adamantine/Texture1.png");
 	pRatchetSubDiff_2->SetDiffuseTexture(L"Textures/Adamantine/Texture2.png");
@@ -179,13 +179,14 @@ void TestScene::AddLevelVisual()
 	auto pLevel = new GameObject();
 	AddChild(pLevel);
 	auto pModel = pLevel->AddComponent(new ModelComponent(L"Meshes/Aridia.ovm"));
+	pLevel->GetTransform()->Translate(-15.f, 0, 35.f);
 
 	constexpr UINT8 amountSubmeshes{ 205 };
 	for (UINT8 submeshid{ 0 }; submeshid < amountSubmeshes; ++submeshid)
 	{
 		std::wstringstream filePath;
 		filePath << L"Textures/Aridia/" << std::to_wstring(221 + submeshid) << L".png";
-		auto pMat = MaterialManager::Get()->CreateMaterial<DiffuseMaterial>();
+		auto pMat = MaterialManager::Get()->CreateMaterial<DiffuseMaterial_Shadow>();
 		pMat->SetDiffuseTexture(filePath.str());
 		pModel->SetMaterial(pMat, submeshid);
 	}
@@ -209,5 +210,6 @@ void TestScene::AddLevelHitbox()
 	AddChild(pLevelHitboxObj);
 	const auto pPxTriangleMesh = ContentManager::Load<PxTriangleMesh>(L"Meshes/AridiaPlatformV2.ovpt");
 	auto levelRb = pLevelHitboxObj->AddComponent(new RigidBodyComponent(true));
-	levelRb->AddCollider(PxTriangleMeshGeometry(pPxTriangleMesh, PxMeshScale({ .5f,.5f,.5f })), *m_pDefaultMaterial);
+	levelRb->AddCollider(PxTriangleMeshGeometry(pPxTriangleMesh, PxMeshScale({ 1.0f, 1.0f, 1.0f })), *m_pDefaultMaterial);
+	pLevelHitboxObj->GetTransform()->Translate(-15.f, 0, 35.f);
 }

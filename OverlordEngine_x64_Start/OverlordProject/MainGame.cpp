@@ -162,7 +162,7 @@ void MainGame::Initialize()
 #endif
 
 #ifdef EXAM
-	SceneManager::Get()->AddGameScene(new MenuScene());
+	//SceneManager::Get()->AddGameScene(new MenuScene());
 	SceneManager::Get()->AddGameScene(new TestScene());
 #endif
 }
