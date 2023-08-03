@@ -65,6 +65,7 @@ void CharacterComponent::Initialize(const SceneContext&)
 
 void CharacterComponent::Update(const SceneContext& sceneContext)
 {
+	constexpr float deathfloorHeight{ -7.f };
 	if (m_pCameraComponent->IsActive())
 	{
 		const float elapsedSec{ sceneContext.pGameTime->GetElapsed() };
@@ -196,5 +197,11 @@ void CharacterComponent::Update(const SceneContext& sceneContext)
 
 		//The above is a simple implementation of Movement Dynamics, adjust the code to further improve the movement logic and behaviour.
 		//Also, it can be usefull to use a seperate RayCast to check if the character is grounded (more responsive)
+	}
+
+	if (GetTransform()->GetPosition().y <= deathfloorHeight)
+	{
+		SceneManager::Get()->PreviousScene();
+		GetTransform()->Translate(25, 0, 4);
 	}
 }

@@ -104,7 +104,7 @@ void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
 	m_pPlayer->SetTag(L"Player");
 	m_pPlayer->AddComponent(new ScoreComponent(pBoltsTextComp));
 	m_pCharComp = m_pPlayer->AddComponent(new CharacterComponent(characterDesc));
-	m_pPlayer->GetTransform()->Translate(0.f, 5.f, 0.f);
+	m_pPlayer->GetTransform()->Translate(25, 0, 4);
 	m_pCharComp->GetCharacterCamera()->GetTransform()->Translate(DirectX::XMVECTOR{0, 5, -10.f});
 
 	//Input
