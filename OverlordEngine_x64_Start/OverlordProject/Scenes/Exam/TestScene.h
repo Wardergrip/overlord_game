@@ -5,6 +5,16 @@ class TextComponent;
 class TestScene : public GameScene
 {
 public:
+	enum InputIds
+	{
+		CharacterMoveLeft,
+		CharacterMoveRight,
+		CharacterMoveForward,
+		CharacterMoveBackward,
+		CharacterJump,
+		CharacterMelee
+	};
+
 	TestScene() 
 		: GameScene(L"TestScene") 
 		, m_pPlayer{}
@@ -28,15 +38,6 @@ protected:
 	void OnGUI() override;
 
 private:
-	enum InputIds
-	{
-		CharacterMoveLeft,
-		CharacterMoveRight,
-		CharacterMoveForward,
-		CharacterMoveBackward,
-		CharacterJump,
-		CharacterMelee
-	};
 	GameObject* m_pPlayer;
 	CharacterComponent* m_pCharComp;
 	physx::PxMaterial* m_pDefaultMaterial;

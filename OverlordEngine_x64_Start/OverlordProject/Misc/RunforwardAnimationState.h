@@ -1,5 +1,6 @@
 #pragma once
 #include "AnimationState.h"
+#include "Scenes/Exam/TestScene.h"
 
 class RunforwardAnimationState final : public AnimationState
 {
@@ -21,7 +22,7 @@ public:
 		bool reverse{ m_pCharAnim->GetCharacterComponent()->GetTotalVelocity().x < 0.f };
 		m_pCharAnim->SetAnimationClip(CharacterAnimControllerComponent::RunForward, reverse);
 	}
-	virtual AnimationState* OnHandle(const SceneContext&) override
+	virtual AnimationState* OnHandle(const SceneContext& sceneContext) override
 	{
 		if (m_pCharAnim->GetCharacterComponent()->GetIsMeleeing()) return m_pCharAnim->GetMeleeAnimState();
 
@@ -34,17 +35,16 @@ public:
 		{
 			return m_pCharAnim->GetJumpAnimState();
 		}
-		else if (std::abs(vel.x) > FLT_EPSILON)
+		else if (std::abs(vel.x) > FLT_EPSILON && (sceneContext.pInput->IsActionTriggered(TestScene::CharacterMoveForward) || sceneContext.pInput->IsActionTriggered(TestScene::CharacterMoveForward)))
 		{
-			bool reverse{ vel.x < 0.f };
+			bool reverse{ sceneContext.pInput->IsActionTriggered(TestScene::CharacterMoveBackward) };
 			m_pCharAnim->SetAnimationClip(CharacterAnimControllerComponent::RunForward, reverse);
 		}
-		else if (std::abs(vel.z) > FLT_EPSILON)
+		else if (std::abs(vel.z) > FLT_EPSILON && (sceneContext.pInput->IsActionTriggered(TestScene::CharacterMoveLeft) || sceneContext.pInput->IsActionTriggered(TestScene::CharacterMoveRight)))
 		{
-			bool reverse{ vel.z < 0.f };
+			bool reverse{ sceneContext.pInput->IsActionTriggered(TestScene::CharacterMoveLeft) };
 			m_pCharAnim->SetAnimationClip(CharacterAnimControllerComponent::StrafeRight, reverse);
 		}
-		//std::cout << "Vel.x: " << vel.x << " Vel.z:" << vel.z << "\n";
 		return this;
 	}
 	virtual void OnExit() override
