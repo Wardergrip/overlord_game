@@ -3,9 +3,17 @@
 #include "Prefabs/BoltPrefab.h"
 #include "Components/AutokillComponent.h"
 
+std::vector<BoltsBoxComponent*> BoltsBoxComponent::BoltsBoxes{};
+
 BoltsBoxComponent::BoltsBoxComponent(GameObject* pPlayer)
 	:m_pPlayer{pPlayer}
 {
+	BoltsBoxes.emplace_back(this);
+}
+
+BoltsBoxComponent::~BoltsBoxComponent()
+{
+	BoltsBoxes.erase(std::remove(BoltsBoxes.begin(), BoltsBoxes.end(), this),BoltsBoxes.end());
 }
 
 void BoltsBoxComponent::Initialize(const SceneContext& /*sceneContext*/)

@@ -2,8 +2,10 @@
 class BoltsBoxComponent : public BaseComponent
 {
 public:
+	static std::vector<BoltsBoxComponent*> BoltsBoxes;
+
 	BoltsBoxComponent(GameObject* pPlayer);
-	virtual ~BoltsBoxComponent() = default;
+	virtual ~BoltsBoxComponent();
 
 	BoltsBoxComponent(const BoltsBoxComponent& other) = delete;
 	BoltsBoxComponent(BoltsBoxComponent&& other) noexcept = delete;

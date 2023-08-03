@@ -43,7 +43,13 @@ void TestScene::Initialize()
 	AddPlayerToScene(boltText);
 	AddFlagToScene();
 
-	AddBoxToScene(XMVECTOR{ 0,10,0 });
+	AddBoxToScene(XMVECTOR{ 3.4f, -1.f, 14.4f });
+	AddBoxToScene(XMVECTOR{ 36.8f, -2.1f, 8.8f });
+	AddBoxToScene(XMVECTOR{ 57.8f, -2.1f, -27.8f });
+	AddBoxToScene(XMVECTOR{ 95.3f, -2.1f, -22.8f });
+	AddBoxToScene(XMVECTOR{ 66.9f, 1.7f, -55.3f });
+	AddBoxToScene(XMVECTOR{ 23.6f, 3.9f, -33.f });
+	AddBoxToScene(XMVECTOR{ 57.725f, -2.1f, -62.2f });
 
 	auto pSkyBox = AddChild(new GameObject());
 	auto pSkyBoxModel = pSkyBox->AddComponent(new ModelComponent(L"Meshes/SkyBoxModel.ovm"));
@@ -83,6 +89,11 @@ void TestScene::OnGUI()
 	auto y = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,2) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().y*/;
 	auto z = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,3) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().z*/;
 	m_pTagbox->GetTransform()->Translate(x,y,z);
+
+	auto pos = m_pPlayer->GetTransform()->GetPosition();
+	ImGui::DragFloat("X", &pos.x);
+	ImGui::DragFloat("Y", &pos.y);
+	ImGui::DragFloat("Z", &pos.z);
 }
 
 void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
@@ -104,7 +115,7 @@ void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
 	m_pPlayer->SetTag(L"Player");
 	m_pPlayer->AddComponent(new ScoreComponent(pBoltsTextComp));
 	m_pCharComp = m_pPlayer->AddComponent(new CharacterComponent(characterDesc));
-	m_pPlayer->GetTransform()->Translate(25, 0, 4);
+	m_pPlayer->GetTransform()->Translate(25, 1, 4);
 	m_pCharComp->GetCharacterCamera()->GetTransform()->Translate(DirectX::XMVECTOR{0, 5, -10.f});
 
 	//Input
@@ -149,7 +160,7 @@ void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
 	m_pRatchetModel = pRatchetModel;
 }
 
-GameObject* TestScene::AddBoxToScene(const DirectX::XMVECTOR& pos)
+GameObject* TestScene::AddBoxToScene(const DirectX::XMVECTOR& pos, bool debugTimer)
 {
 	static auto pBoxMat = PxGetPhysics().createMaterial(0.5f, 0.5f, 0.f);
 	constexpr float scale = 0.05f;
@@ -169,7 +180,8 @@ GameObject* TestScene::AddBoxToScene(const DirectX::XMVECTOR& pos)
 	boxRb->AddCollider(PxConvexMeshGeometry{ pPxConvexMesh,PxMeshScale({ scale,scale,scale })}, *pBoxMat);
 	boxRb->AddCollider(PxConvexMeshGeometry{ pPxConvexMesh,PxMeshScale({triggerScale,triggerScale,triggerScale}) }, *pBoxMat, true);
 
-	pBoxObj->AddComponent(new BoltsBoxComponent(m_pPlayer))->StartDebugTimer();
+	auto boltsComp = pBoxObj->AddComponent(new BoltsBoxComponent(m_pPlayer));
+	if (debugTimer) boltsComp->StartDebugTimer();
 
 	return pBoxObj;
 }

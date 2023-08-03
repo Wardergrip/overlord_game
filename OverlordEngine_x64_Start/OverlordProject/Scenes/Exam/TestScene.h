@@ -48,7 +48,7 @@ private:
 	void AddLevelVisual();
 	void AddLevelHitbox();
 	void AddFlagToScene();
-	GameObject* AddBoxToScene(const DirectX::XMVECTOR& pos);
+	GameObject* AddBoxToScene(const DirectX::XMVECTOR& pos, bool debugTimer = false);
 
 	int m_BoneTransformIdx;
 	ModelComponent* m_pRatchetModel;
