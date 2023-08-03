@@ -28,7 +28,7 @@ public:
 		{
 			if (std::abs(vel.x) > FLT_EPSILON || std::abs(vel.z) > FLT_EPSILON)
 			{
-				return m_pCharAnim->GetRunforwardAnimState();
+				return m_pCharAnim->GetRunAnimState();
 			}
 			return m_pCharAnim->GetIdleAnimState();
 

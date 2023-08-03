@@ -5,7 +5,7 @@ class ModelAnimator;
 class AnimationState;
 class IdleAnimationState;
 class JumpAnimationState;
-class RunforwardAnimationState;
+class RunAnimationState;
 class MeleeAnimationState;
 class CharacterAnimControllerComponent final : public BaseComponent
 {
@@ -29,7 +29,7 @@ public:
 
 	AnimationState* GetIdleAnimState() const { return reinterpret_cast<AnimationState*>(m_pIdleAnimationState.get()); }
 	AnimationState* GetJumpAnimState() const { return reinterpret_cast<AnimationState*>(m_pJumpAnimationState.get()); }
-	AnimationState* GetRunforwardAnimState() const { return reinterpret_cast<AnimationState*>(m_pRunforwardAnimationState.get()); }
+	AnimationState* GetRunAnimState() const { return reinterpret_cast<AnimationState*>(m_pRunforwardAnimationState.get()); }
 	AnimationState* GetMeleeAnimState() const { return reinterpret_cast<AnimationState*>(m_pMeleeAnimationState.get()); }
 	
 	CharacterComponent* GetCharacterComponent() const { return m_pCharacter; }
@@ -43,7 +43,7 @@ private:
 	AnimationState* m_pCurrentAnimationState;
 	std::unique_ptr<IdleAnimationState> m_pIdleAnimationState;
 	std::unique_ptr<JumpAnimationState> m_pJumpAnimationState;
-	std::unique_ptr<RunforwardAnimationState> m_pRunforwardAnimationState;
+	std::unique_ptr<RunAnimationState> m_pRunforwardAnimationState;
 	std::unique_ptr<MeleeAnimationState> m_pMeleeAnimationState;
 
 	CharacterComponent* m_pCharacter;

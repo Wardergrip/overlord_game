@@ -2,20 +2,20 @@
 #include "AnimationState.h"
 #include "Scenes/Exam/TestScene.h"
 
-class RunforwardAnimationState final : public AnimationState
+class RunAnimationState final : public AnimationState
 {
 
 public:
-	RunforwardAnimationState(CharacterAnimControllerComponent* pCharAnimControllerComp)
+	RunAnimationState(CharacterAnimControllerComponent* pCharAnimControllerComp)
 		:AnimationState(pCharAnimControllerComp)
 	{
 	}
-	virtual ~RunforwardAnimationState() = default;
+	virtual ~RunAnimationState() = default;
 
-	RunforwardAnimationState(RunforwardAnimationState&& other) = delete;
-	RunforwardAnimationState(const RunforwardAnimationState& other) = delete;
-	const RunforwardAnimationState& operator=(RunforwardAnimationState&& other) = delete;
-	const RunforwardAnimationState& operator=(const RunforwardAnimationState& other) = delete;
+	RunAnimationState(RunAnimationState&& other) = delete;
+	RunAnimationState(const RunAnimationState& other) = delete;
+	const RunAnimationState& operator=(RunAnimationState&& other) = delete;
+	const RunAnimationState& operator=(const RunAnimationState& other) = delete;
 
 	virtual void OnEnter() override
 	{

@@ -16,7 +16,7 @@ CharacterAnimControllerComponent::CharacterAnimControllerComponent(CharacterComp
 	,m_pCurrentAnimationState{}
 	,m_pIdleAnimationState{new IdleAnimationState(this)}
 	,m_pJumpAnimationState{new JumpAnimationState(this)}
-	,m_pRunforwardAnimationState{new RunforwardAnimationState(this)}
+	,m_pRunforwardAnimationState{new RunAnimationState(this)}
 	,m_pMeleeAnimationState{new MeleeAnimationState(this)}
 {
 	m_pCurrentAnimationState = GetIdleAnimState();
