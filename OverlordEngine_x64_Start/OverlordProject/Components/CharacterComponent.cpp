@@ -61,6 +61,7 @@ void CharacterComponent::Initialize(const SceneContext&)
 	//m_pCameraComponent->SetActive(true); //Uncomment to make this camera the active camera
 
 	pCamera->GetTransform()->Translate(0.f, m_CharacterDesc.controller.height * .5f, 0.f);
+	m_TotalPitch = 15.f;
 }
 
 void CharacterComponent::Update(const SceneContext& sceneContext)
@@ -122,7 +123,7 @@ void CharacterComponent::Update(const SceneContext& sceneContext)
 		//Make sure this calculated on a framerate independent way and uses CharacterDesc::rotationSpeed.
 		const float rotationAmount{ sceneContext.pGameTime->GetElapsed() * m_CharacterDesc.rotationSpeed };
 		m_TotalYaw += look.x * rotationAmount;
-		m_TotalPitch += look.y * rotationAmount;
+		//m_TotalPitch += look.y * rotationAmount;
 		//Rotate this character based on the TotalPitch (X) and TotalYaw (Y)
 		GetTransform()->Rotate(0.0f, m_TotalYaw, 0.0f);
 		sceneContext.pCamera->GetTransform()->Rotate(m_TotalPitch, 0.0f, 0.0f);
