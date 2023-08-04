@@ -13,13 +13,13 @@ public:
 	BoltsBoxComponent& operator=(BoltsBoxComponent&& other) noexcept = delete;
 
 	void StartDebugTimer() { m_DebugTimer = true; }
+	void BreakSequence();
+
 protected:
 	void Initialize(const SceneContext& sceneContext) override;
 	void Update(const SceneContext& sceneContext) override;
 
 private:
-	void BreakSequence();
-
 	bool m_DebugTimer{ false };
 	float m_DebugTimeElapsed{ 0.0f };
 	GameObject* m_pPlayer;
