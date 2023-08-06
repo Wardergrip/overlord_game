@@ -41,7 +41,7 @@ public:
 		hitboxObj->SetOnTriggerCallBack([&](GameObject* /*pTriggerObject*/, GameObject* pOtherObject, PxTriggerAction /*action*/)
 			{
 				auto bbc = pOtherObject->GetComponent<BoltsBoxComponent>();
-				if (bbc)
+				if (pOtherObject->GetTag() == L"Boltsbox")
 				{
 					bbc->BreakSequence();
 				}

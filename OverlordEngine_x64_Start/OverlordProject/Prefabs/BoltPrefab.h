@@ -13,7 +13,6 @@ protected:
 	void Initialize(const SceneContext&) override;
 
 private:
-	FMOD::Sound* m_pPickupSound{ nullptr };
-	FMOD::Channel* m_pChannel{ nullptr };
+	GameObject* m_pPlayer;
 };
 

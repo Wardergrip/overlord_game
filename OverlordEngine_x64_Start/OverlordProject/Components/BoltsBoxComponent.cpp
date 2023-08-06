@@ -18,6 +18,8 @@ BoltsBoxComponent::~BoltsBoxComponent()
 
 void BoltsBoxComponent::Initialize(const SceneContext& /*sceneContext*/)
 {
+	GetGameObject()->SetTag(L"Boltsbox");
+
 	const auto pFmod{ SoundManager::Get()->GetSystem() };
 	std::string sfxFilepath;
 	int random{ rand() % 2 };
@@ -63,6 +65,7 @@ void BoltsBoxComponent::BreakSequence()
 
 	auto thisObj = GetGameObject();
 	auto scene = thisObj->GetScene();
+	const auto& thisPos = thisObj->GetTransform()->GetPosition();
 
 	//Particle System
 	constexpr float timer{ 1.f };
@@ -89,9 +92,8 @@ void BoltsBoxComponent::BreakSequence()
 	for (size_t i{ 0 }; i < amount; ++i)
 	{
 		auto pBolt = scene->AddChild(new BoltPrefab(m_pPlayer));
-		const auto& thisPos = thisObj->GetTransform()->GetPosition();
 		XMFLOAT3 offset{ ((rand() % 101) / 100.f) * offsetMultiplier,((rand() % 101) / 100.f) * offsetMultiplier, ((rand() % 101) / 100.f) * offsetMultiplier };
-		XMFLOAT3 randomRot{ static_cast<float>(rand() % 361),static_cast<float>(rand() % 361) ,static_cast<float>(rand() % 361) };
+		XMFLOAT3 randomRot{ static_cast<float>(rand() % 360),static_cast<float>(rand() % 360) ,static_cast<float>(rand() % 360) };
 		pBolt->GetTransform()->Translate(thisPos.x + offset.x, thisPos.y + offset.y, thisPos.z + offset.z);
 		pBolt->GetTransform()->Rotate(randomRot.x, randomRot.y, randomRot.z);
 	}

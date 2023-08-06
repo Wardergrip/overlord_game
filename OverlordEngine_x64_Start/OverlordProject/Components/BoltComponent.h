@@ -16,5 +16,8 @@ protected:
 
 private:
 	GameObject* m_pPlayer;
+
+	FMOD::Sound* m_pPickupSound{ nullptr };
+	FMOD::Channel* m_pChannel{ nullptr };
 };
 

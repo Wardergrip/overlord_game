@@ -17,12 +17,13 @@
 #include "Components/AutokillComponent.h"
 
 //#define ENABLE_POSTPROCESSING
-#define ENABLE_BACKGROUNDMUSIC
+//#define ENABLE_BACKGROUNDMUSIC
 
 void TestScene::Initialize()
 {
 	m_SceneContext.pLights->SetDirectionalLight({ -95.6139526f,66.1346436f,-41.1850471f }, { 0.740129888f, -0.597205281f, 0.309117377f });
 
+	m_DrawShadowMap = false;
 	m_pPlayer = nullptr;
 	m_pCameraComp = nullptr;
 	m_pDefaultMaterial = PxGetPhysics().createMaterial(0.5f, 0.5f, 0.5f);
@@ -96,6 +97,17 @@ void TestScene::OnGUI()
 	ImGui::DragFloat("X", &pos.x);
 	ImGui::DragFloat("Y", &pos.y);
 	ImGui::DragFloat("Z", &pos.z);
+
+	ImGui::Checkbox("Draw ShadowMap", &m_DrawShadowMap);
+	ImGui::SliderFloat("ShadowMap Scale", &m_ShadowMapScale, 0.f, 1.f);
+}
+
+void TestScene::PostDraw()
+{
+	if (m_DrawShadowMap) 
+	{
+		ShadowMapRenderer::Get()->Debug_DrawDepthSRV({ m_SceneContext.windowWidth - 10.f, 10.f }, { m_ShadowMapScale, m_ShadowMapScale }, { 1.f,0.f });
+	}
 }
 
 void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)

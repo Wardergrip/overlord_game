@@ -36,6 +36,7 @@ protected:
 	/*void Update() override;
 	void Draw() override;*/
 	void OnGUI() override;
+	void PostDraw() override;
 
 private:
 	GameObject* m_pPlayer;
@@ -56,4 +57,7 @@ private:
 
 	FMOD::Sound* m_pMusic{ nullptr };
 	FMOD::Channel* m_pChannel{ nullptr };
+
+	bool m_DrawShadowMap;
+	float m_ShadowMapScale;
 };
