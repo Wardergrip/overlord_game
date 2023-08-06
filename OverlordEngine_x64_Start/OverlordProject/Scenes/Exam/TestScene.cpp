@@ -16,12 +16,15 @@
 #include "Materials/Post/PostPixelated.h"
 #include "Components/AutokillComponent.h"
 
-//#define ENABLE_POSTPROCESSING
+#define ENABLE_POSTPROCESSING
 //#define ENABLE_BACKGROUNDMUSIC
 
 void TestScene::Initialize()
 {
-	m_SceneContext.pLights->SetDirectionalLight({ -95.6139526f,66.1346436f,-41.1850471f }, { 0.740129888f, -0.597205281f, 0.309117377f });
+	m_LightDirection = { 0.740129888f, -0.597205281f, 0.309117377f };
+	m_LightOffset = { 0.f,0.f,0.f };
+	m_ShadowMapNear = 0.1f;
+	m_ShadowMapFar = 500.f;
 
 	m_DrawShadowMap = false;
 	m_pPlayer = nullptr;
@@ -78,10 +81,19 @@ void TestScene::Initialize()
 	auto pPostPixelated = MaterialManager::Get()->CreateMaterial<PostPixelated>();
 	const float windowWidth{ 1280 };
 	const float windowHeight{ 720 };
-	const float scaleFactor{ 0.6f };
+	const float scaleFactor{ 0.45f };
 	pPostPixelated->SetCollRow(windowWidth * scaleFactor, windowHeight * scaleFactor);
 	AddPostProcessingEffect(pPostPixelated);
 #endif
+}
+
+void TestScene::Update()
+{
+	XMFLOAT3 pos = m_pPlayer->GetTransform()->GetPosition();
+	pos.x += m_LightOffset.x;
+	pos.y += m_LightOffset.y;
+	pos.z += m_LightOffset.z;
+	m_SceneContext.pLights->SetDirectionalLight(pos, m_LightDirection);
 }
 
 void TestScene::OnGUI()
@@ -93,10 +105,23 @@ void TestScene::OnGUI()
 	auto z = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,3) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().z*/;
 	m_pTagbox->GetTransform()->Translate(x,y,z);
 
-	auto pos = m_pPlayer->GetTransform()->GetPosition();
-	ImGui::DragFloat("X", &pos.x);
-	ImGui::DragFloat("Y", &pos.y);
-	ImGui::DragFloat("Z", &pos.z);
+	auto playerPos = m_pPlayer->GetTransform()->GetPosition();
+	ImGui::DragFloat("playX", &playerPos.x);
+	ImGui::DragFloat("playY", &playerPos.y);
+	ImGui::DragFloat("playZ", &playerPos.z);
+
+	ImGui::DragFloat("playX", &playerPos.x);
+	ImGui::DragFloat("playY", &playerPos.y);
+	ImGui::DragFloat("playZ", &playerPos.z);
+	
+	/*ImGui::DragFloat("lightX", &m_LightOffset.x);
+	ImGui::DragFloat("lightY", &m_LightOffset.y);
+	ImGui::DragFloat("lightZ", &m_LightOffset.z);
+	ImGui::DragFloat("lightDirX", &m_LightDirection.x,0.01f,-1.f,1.f);
+	ImGui::DragFloat("lightDirY", &m_LightDirection.y,0.01f,-1.f,1.f);
+	ImGui::DragFloat("lightDirZ", &m_LightDirection.z,0.01f,-1.f,1.f);
+	ImGui::DragFloat("Near plane", &m_ShadowMapNear);
+	ImGui::DragFloat("Far plane", &m_ShadowMapFar);*/
 
 	ImGui::Checkbox("Draw ShadowMap", &m_DrawShadowMap);
 	ImGui::SliderFloat("ShadowMap Scale", &m_ShadowMapScale, 0.f, 1.f);
@@ -104,6 +129,7 @@ void TestScene::OnGUI()
 
 void TestScene::PostDraw()
 {
+	ShadowMapRenderer::Get()->SetNearplane(m_ShadowMapNear).SetFarplane(m_ShadowMapFar);
 	if (m_DrawShadowMap) 
 	{
 		ShadowMapRenderer::Get()->Debug_DrawDepthSRV({ m_SceneContext.windowWidth - 10.f, 10.f }, { m_ShadowMapScale, m_ShadowMapScale }, { 1.f,0.f });

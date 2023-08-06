@@ -33,8 +33,8 @@ public:
 
 protected:
 	void Initialize() override;
-	/*void Update() override;
-	void Draw() override;*/
+	void Update() override;
+	/*void Draw() override;*/
 	void OnGUI() override;
 	void PostDraw() override;
 
@@ -58,6 +58,11 @@ private:
 	FMOD::Sound* m_pMusic{ nullptr };
 	FMOD::Channel* m_pChannel{ nullptr };
 
+	DirectX::XMFLOAT3 m_LightDirection;
+	DirectX::XMFLOAT3 m_LightOffset;
+
 	bool m_DrawShadowMap;
 	float m_ShadowMapScale;
+	float m_ShadowMapNear;
+	float m_ShadowMapFar;
 };

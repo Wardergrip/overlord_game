@@ -20,6 +20,9 @@ public:
 
 	void Debug_DrawDepthSRV(const XMFLOAT2& position = { 0.f,0.f }, const XMFLOAT2& scale = { 1.f,1.f }, const XMFLOAT2& pivot = {0.f,0.f}) const;
 
+	ShadowMapRenderer& SetNearplane(float nearPlane) { m_NearPlane = nearPlane; return *this; }
+	ShadowMapRenderer& SetFarplane(float farPlane) { m_FarPlane = farPlane; return *this; }
+
 protected:
 	void Initialize() override;
 
@@ -49,5 +52,9 @@ private:
 	//This information is automatically create by the Material class, we only store it in a local array for fast retrieval 
 	static int const NUM_TYPES{ 2 };
 	MaterialTechniqueContext m_GeneratorTechniqueContexts[NUM_TYPES];
+
+	// Near & far plane
+	float m_NearPlane{ 0.1f };
+	float m_FarPlane{ 500.f };
 };
 
