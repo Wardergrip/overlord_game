@@ -11,7 +11,7 @@ public:
 	MeleeAnimationState(CharacterAnimControllerComponent* pCharAnimControllerComp)
 		:AnimationState(pCharAnimControllerComp)
 		,m_Timer{}
-		,m_MaxTimer{ 2.433f }
+		,m_MaxTimer{ 2.433f * 0.5f }
 	{
 		m_Timer = m_MaxTimer;
 	}
@@ -24,15 +24,15 @@ public:
 
 	virtual void OnEnter() override
 	{
-		m_pCharAnim->SetAnimationClip(CharacterAnimControllerComponent::Melee, false);
+		m_pCharAnim->SetAnimationClip(CharacterAnimControllerComponent::Melee, false, m_MaxTimer);
 		m_pCharAnim->GetCharacterComponent()->SetAllowInput(false);
 
 		// Hitbox
 		constexpr float hitboxDistance{ 2.f };
 		constexpr float hitboxTime{ 1.f };
-		const PxVec3 hitboxScale{ 1.f,1.f,1.f };
+		const PxVec3 hitboxScale{ 3.f,1.f,3.f };
 		auto pHitboxMat = PxGetPhysics().createMaterial(0.5f, 0.5f, 0.f);
-		auto hitboxObj = m_pCharAnim->GetScene()->AddChild(new CubePrefab(XMFLOAT3{1.f,1.f,1.f}));
+		auto hitboxObj = m_pCharAnim->GetScene()->AddChild(new GameObject(/*XMFLOAT3{1.f,1.f,1.f}*/));
 		hitboxObj->AddComponent(new AutokillComponent(hitboxTime));
 		auto hitboxRb = hitboxObj->AddComponent(new RigidBodyComponent());
 		hitboxRb->SetKinematic(true);
