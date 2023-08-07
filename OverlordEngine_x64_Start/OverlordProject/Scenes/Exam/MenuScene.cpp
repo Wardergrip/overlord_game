@@ -85,7 +85,7 @@ void MenuScene::Update()
 			}
 			else if (pPickedObject == m_pExitButton)
 			{
-				ExitProcess(0);
+				OverlordGame::SHOULD_EXIT = true;
 			}
 		}
 	}

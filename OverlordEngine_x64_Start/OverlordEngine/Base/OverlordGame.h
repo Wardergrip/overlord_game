@@ -5,6 +5,7 @@ class RenderTarget;
 class OverlordGame
 {
 public:
+	static bool SHOULD_EXIT;
 
 	OverlordGame();
 	virtual ~OverlordGame();
