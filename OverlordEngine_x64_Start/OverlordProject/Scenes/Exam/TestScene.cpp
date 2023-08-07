@@ -21,10 +21,10 @@
 
 void TestScene::Initialize()
 {
-	m_LightDirection = { 0.740129888f, -0.597205281f, 0.309117377f };
-	m_LightOffset = { 0.f,0.f,0.f };
-	m_ShadowMapNear = 0.1f;
-	m_ShadowMapFar = 500.f;
+	m_LightDirection = { 0.15f, -0.95f, 1.0f };
+	m_LightOffset = { -16.f,15.f,23.f };
+	m_ShadowMapNear = -30.f;
+	m_ShadowMapFar = 80.f;
 
 	m_DrawShadowMap = false;
 	m_pPlayer = nullptr;
