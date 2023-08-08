@@ -65,6 +65,9 @@ void MenuScene::Initialize()
 	auto pExitTextComp = AddChild(pExitText)->AddComponent(new TextComponent(pFont, L"Exit"));
 	pExitTextComp->SetPos({ m_SceneContext.windowWidth * 0.5f - 30.f,m_SceneContext.windowHeight * 0.5f + 100.f });
 
+	
+	std::cout << "WASD - movement\nLeft click + move - look around\nG - melee\nSpace - jump\n";
+
 #ifdef ENABLE_BACKGROUNDMUSIC
 	const auto pFmod{ SoundManager::Get()->GetSystem() };
 	std::string filePath{ "Resources/Music/RnC3_Title_Screen.mp3" };
