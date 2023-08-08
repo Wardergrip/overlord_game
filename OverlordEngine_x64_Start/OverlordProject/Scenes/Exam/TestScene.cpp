@@ -16,11 +16,16 @@
 #include "Materials/Post/PostPixelated.h"
 #include "Components/AutokillComponent.h"
 
-#define ENABLE_POSTPROCESSING
+//#define ENABLE_POSTPROCESSING
 //#define ENABLE_BACKGROUNDMUSIC
+
+bool TestScene::ENDGOAL_REACHED{ false };
 
 void TestScene::Initialize()
 {
+	m_EndGoalWaitTime = 2.5f;
+	m_EndGoalReachedTimer = m_EndGoalWaitTime;
+
 	m_LightDirection = { 0.15f, -0.95f, 1.0f };
 	m_LightOffset = { -16.f,15.f,23.f };
 	m_ShadowMapNear = -30.f;
@@ -89,6 +94,38 @@ void TestScene::Initialize()
 
 void TestScene::Update()
 {
+	if (ENDGOAL_REACHED)
+	{
+		if (m_EndGoalReachedTimer == m_EndGoalWaitTime)
+		{
+			//Particle System
+			ParticleEmitterSettings settings{};
+			settings.velocity = { 0.f,6.f,0.f };
+			settings.minSize = 0.1f;
+			settings.maxSize = 0.5f;
+			settings.minEnergy = 1.0f;
+			settings.maxEnergy = 1.0f;
+			settings.minScale = 0.01f;
+			settings.maxScale = 0.05f;
+			settings.minEmitterRadius = 0.8f;
+			settings.maxEmitterRadius = 2.0f;
+			settings.color = { 0.9f,0.78f,0.8f, .6f };
+
+			const auto pEmitObj = AddChild(new GameObject);
+			pEmitObj->AddComponent(new ParticleEmitterComponent(L"Textures/SoftBall.png", settings, 100));
+			pEmitObj->AddComponent(new AutokillComponent(m_EndGoalWaitTime));
+			const auto& objPos = m_pPlayer->GetTransform()->GetWorldPosition();
+			pEmitObj->GetTransform()->Translate(objPos.x, objPos.y + 1.0f, objPos.z);
+		}
+		m_EndGoalReachedTimer -= m_SceneContext.pGameTime->GetElapsed();
+		if (m_EndGoalReachedTimer <= 0.f)
+		{
+			m_EndGoalReachedTimer = m_EndGoalWaitTime;
+			ENDGOAL_REACHED = false;
+			SceneManager::Get()->PreviousScene();
+		}
+	}
+
 	XMFLOAT3 pos = m_pPlayer->GetTransform()->GetPosition();
 	pos.x += m_LightOffset.x;
 	pos.y += m_LightOffset.y;

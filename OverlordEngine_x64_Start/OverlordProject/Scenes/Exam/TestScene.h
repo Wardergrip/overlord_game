@@ -5,6 +5,8 @@ class TextComponent;
 class TestScene : public GameScene
 {
 public:
+	static bool ENDGOAL_REACHED;
+
 	enum InputIds
 	{
 		CharacterMoveLeft,
@@ -65,4 +67,7 @@ private:
 	float m_ShadowMapScale;
 	float m_ShadowMapNear;
 	float m_ShadowMapFar;
+
+	float m_EndGoalWaitTime;
+	float m_EndGoalReachedTimer;
 };

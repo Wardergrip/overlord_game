@@ -2,6 +2,7 @@
 #include "BoltsBoxComponent.h"
 #include "Prefabs/BoltPrefab.h"
 #include "Components/AutokillComponent.h"
+#include "Scenes/Exam/TestScene.h"
 
 std::vector<BoltsBoxComponent*> BoltsBoxComponent::BoltsBoxes{};
 
@@ -14,6 +15,10 @@ BoltsBoxComponent::BoltsBoxComponent(GameObject* pPlayer)
 BoltsBoxComponent::~BoltsBoxComponent()
 {
 	BoltsBoxes.erase(std::remove(BoltsBoxes.begin(), BoltsBoxes.end(), this),BoltsBoxes.end());
+	if (BoltsBoxes.empty())
+	{
+		TestScene::ENDGOAL_REACHED = true;
+	}
 }
 
 void BoltsBoxComponent::Initialize(const SceneContext& /*sceneContext*/)
