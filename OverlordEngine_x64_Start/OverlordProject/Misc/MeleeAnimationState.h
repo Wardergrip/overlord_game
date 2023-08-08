@@ -53,6 +53,28 @@ public:
 		pos.y += forward.y * hitboxDistance;
 		pos.z += forward.z * hitboxDistance;
 		hitboxObj->GetTransform()->Translate(pos);
+
+		// SFX
+		const auto pFmod{ SoundManager::Get()->GetSystem() };
+		FMOD::Channel* pChannel{};
+		FMOD::Sound* pSwingSound{};
+		std::string sfxFilepath;
+		int random{ rand() % 3 };
+		switch (random)
+		{
+		case 0:
+			sfxFilepath = "Resources/SFX/SwingSFX_0.mp3";
+			break;
+		case 1:
+			sfxFilepath = "Resources/SFX/SwingSFX_1.mp3";
+			break;
+		case 2:
+			sfxFilepath = "Resources/SFX/SwingSFX_2.mp3";
+			break;
+		}
+		pFmod->createStream(sfxFilepath.c_str(), FMOD_DEFAULT, nullptr, &pSwingSound);
+		pFmod->playSound(pSwingSound, nullptr, false, &pChannel);
+		pChannel->setVolume(1.f);
 	}
 	virtual AnimationState* OnHandle(const SceneContext& sceneContext) override
 	{
