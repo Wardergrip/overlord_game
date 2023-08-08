@@ -19,6 +19,8 @@
 //#define ENABLE_POSTPROCESSING
 //#define ENABLE_BACKGROUNDMUSIC
 
+//#define ENABLE_DEBUG
+
 bool TestScene::ENDGOAL_REACHED{ false };
 
 void TestScene::Initialize()
@@ -37,6 +39,10 @@ void TestScene::Initialize()
 	m_pDefaultMaterial = PxGetPhysics().createMaterial(0.5f, 0.5f, 0.5f);
 
 	m_SceneContext.settings.enableOnGUI = true;
+#ifndef ENABLE_DEBUG
+	m_SceneContext.settings.drawPhysXDebug = false;
+	m_SceneContext.settings.drawGrid = false;
+#endif
 
 	//auto& physX{ PxGetPhysics() };
 	auto pFont = ContentManager::Load<SpriteFont>(L"SpriteFonts/Consolas_32.fnt");
@@ -135,22 +141,23 @@ void TestScene::Update()
 
 void TestScene::OnGUI()
 {
+#ifdef ENABLE_DEBUG
 	if (m_pCharComp) m_pCharComp->DrawImGui();
-	ImGui::DragInt("BoneTransformIdx", &m_BoneTransformIdx, 1.0f, 0, static_cast<int>(m_pRatchetModel->GetAnimator()->GetBoneTransforms().size() - 1));
-	auto x = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,1) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().x*/;
-	auto y = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,2) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().y*/;
-	auto z = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,3) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().z*/;
-	m_pTagbox->GetTransform()->Translate(x,y,z);
+#endif // ENABLE_DEBUG
+	//ImGui::DragInt("BoneTransformIdx", &m_BoneTransformIdx, 1.0f, 0, static_cast<int>(m_pRatchetModel->GetAnimator()->GetBoneTransforms().size() - 1));
+	//auto x = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,1) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().x*/;
+	//auto y = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,2) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().y*/;
+	//auto z = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,3) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().z*/;
+	//m_pTagbox->GetTransform()->Translate(x,y,z);
 
+#ifdef ENABLE_DEBUG
 	auto playerPos = m_pPlayer->GetTransform()->GetPosition();
 	ImGui::DragFloat("playX", &playerPos.x);
 	ImGui::DragFloat("playY", &playerPos.y);
 	ImGui::DragFloat("playZ", &playerPos.z);
+#endif
 
-	ImGui::DragFloat("playX", &playerPos.x);
-	ImGui::DragFloat("playY", &playerPos.y);
-	ImGui::DragFloat("playZ", &playerPos.z);
-	
+	// Toy with shadowmap
 	/*ImGui::DragFloat("lightX", &m_LightOffset.x);
 	ImGui::DragFloat("lightY", &m_LightOffset.y);
 	ImGui::DragFloat("lightZ", &m_LightOffset.z);
@@ -158,10 +165,9 @@ void TestScene::OnGUI()
 	ImGui::DragFloat("lightDirY", &m_LightDirection.y,0.01f,-1.f,1.f);
 	ImGui::DragFloat("lightDirZ", &m_LightDirection.z,0.01f,-1.f,1.f);
 	ImGui::DragFloat("Near plane", &m_ShadowMapNear);
-	ImGui::DragFloat("Far plane", &m_ShadowMapFar);*/
-
+	ImGui::DragFloat("Far plane", &m_ShadowMapFar);
 	ImGui::Checkbox("Draw ShadowMap", &m_DrawShadowMap);
-	ImGui::SliderFloat("ShadowMap Scale", &m_ShadowMapScale, 0.f, 1.f);
+	ImGui::SliderFloat("ShadowMap Scale", &m_ShadowMapScale, 0.f, 1.f);*/
 }
 
 void TestScene::PostDraw()
