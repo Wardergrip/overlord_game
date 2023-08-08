@@ -62,11 +62,16 @@ void CharacterComponent::Initialize(const SceneContext&)
 
 	pCamera->GetTransform()->Translate(0.f, m_CharacterDesc.controller.height * .5f, 0.f);
 	m_TotalPitch = 15.f;
+
+	const auto pFmod{ SoundManager::Get()->GetSystem() };
+	pFmod->createSound("Resources/SFX/RatchetDies_0.mp3", FMOD_DEFAULT, nullptr, &m_pFallSound);
+	m_pChannel->setVolume(1.f);
 }
 
 void CharacterComponent::Update(const SceneContext& sceneContext)
 {
-	constexpr float deathfloorHeight{ -7.f };
+	constexpr float deathfloorHeight{ -15.f };
+	constexpr float deathSFXHeight{ -6.f };
 	if (m_pCameraComponent->IsActive())
 	{
 		const float elapsedSec{ sceneContext.pGameTime->GetElapsed() };
@@ -200,7 +205,18 @@ void CharacterComponent::Update(const SceneContext& sceneContext)
 		//Also, it can be usefull to use a seperate RayCast to check if the character is grounded (more responsive)
 	}
 
-	if (GetTransform()->GetPosition().y <= deathfloorHeight)
+	auto posY = GetTransform()->GetPosition().y;
+
+	if (posY <= deathSFXHeight)
+	{
+		bool isPlaying{ false };
+		m_pChannel->isPlaying(&isPlaying);
+		if (isPlaying == false)
+		{
+			SoundManager::Get()->GetSystem()->playSound(m_pFallSound, nullptr, false, &m_pChannel);
+		}
+	}
+	if (posY <= deathfloorHeight)
 	{
 		SceneManager::Get()->PreviousScene();
 		GetTransform()->Translate(25, 0, 4);

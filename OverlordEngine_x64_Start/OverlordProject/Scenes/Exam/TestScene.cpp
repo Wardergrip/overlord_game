@@ -85,6 +85,7 @@ void TestScene::Initialize()
 	std::string filePath{ "Resources/Music/RnC3_Veldin_Kyzil_Plateau.mp3" };
 	pFmod->createStream(filePath.c_str(), FMOD_DEFAULT, nullptr, &m_pMusic);
 	pFmod->playSound(m_pMusic, nullptr, false, &m_pChannel);
+	m_pChannel->setVolume(0.4f);
 #endif
 
 #ifdef ENABLE_POSTPROCESSING
