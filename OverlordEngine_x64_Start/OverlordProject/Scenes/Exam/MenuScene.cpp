@@ -65,8 +65,20 @@ void MenuScene::Initialize()
 	auto pExitTextComp = AddChild(pExitText)->AddComponent(new TextComponent(pFont, L"Exit"));
 	pExitTextComp->SetPos({ m_SceneContext.windowWidth * 0.5f - 30.f,m_SceneContext.windowHeight * 0.5f + 100.f });
 
-	
-	std::cout << "WASD - movement\nLeft click + move - look around\nG - melee\nSpace - jump\n";
+	AddChild(new GameObject())
+		->AddComponent(new TextComponent(pFont, L"WASD - Movement"))
+		->SetPos({m_SceneContext.windowWidth * 0.5f - 630.f,m_SceneContext.windowHeight * 0.5f - 150.f});
+	AddChild(new GameObject())
+		->AddComponent(new TextComponent(pFont, L"Left click + drag - look around"))
+		->SetPos({m_SceneContext.windowWidth * 0.5f - 630.f,m_SceneContext.windowHeight * 0.5f - 150.f - 40.f});
+	AddChild(new GameObject())
+		->AddComponent(new TextComponent(pFont, L"G - melee"))
+		->SetPos({m_SceneContext.windowWidth * 0.5f - 630.f,m_SceneContext.windowHeight * 0.5f - 150.f - 80.f});
+	AddChild(new GameObject())
+		->AddComponent(new TextComponent(pFont, L"Space - jump"))
+		->SetPos({m_SceneContext.windowWidth * 0.5f - 630.f,m_SceneContext.windowHeight * 0.5f - 150.f - 120.f});
+
+	std::cout << "WASD - movement\nLeft click + drag - look around\nG - melee\nSpace - jump\n";
 
 #ifdef ENABLE_BACKGROUNDMUSIC
 	const auto pFmod{ SoundManager::Get()->GetSystem() };
