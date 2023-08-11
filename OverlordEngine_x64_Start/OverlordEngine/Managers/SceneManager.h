@@ -16,6 +16,18 @@ public:
 	const SceneContext& GetActiveSceneContext() const { return m_ActiveScene->GetSceneContext(); }
 	SceneSettings& GetActiveSceneSettings() const { return m_ActiveScene->GetSceneSettings(); }
 
+	bool IsSceneLoaded(const std::wstring& name) const
+	{
+		for (auto scene : m_pScenes)
+		{
+			if (scene->m_SceneName == name)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 protected:
 	void Initialize() override;
 

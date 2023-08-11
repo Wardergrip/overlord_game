@@ -38,6 +38,8 @@ public:
 	PhysxProxy* GetPhysxProxy() const { return m_pPhysxProxy; }
 	void SetActiveCamera(CameraComponent* pCameraComponent);
 
+	bool IsPaused() const { return m_IsPaused; }
+
 protected:
 	virtual void Initialize() = 0;
 	virtual void PostInitialize() {};
@@ -51,6 +53,7 @@ protected:
 	virtual void OnSceneDeactivated() {}
 
 	SceneContext m_SceneContext{};
+	bool m_IsPaused{ false };
 private:
 	friend class SceneManager;
 

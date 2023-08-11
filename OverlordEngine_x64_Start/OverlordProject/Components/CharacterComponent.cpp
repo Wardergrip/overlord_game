@@ -70,6 +70,10 @@ void CharacterComponent::Initialize(const SceneContext&)
 
 void CharacterComponent::Update(const SceneContext& sceneContext)
 {
+	if (GetGameObject()->GetScene()->IsPaused())
+	{
+		return;
+	}
 	constexpr float deathfloorHeight{ -15.f };
 	constexpr float deathSFXHeight{ -6.f };
 	if (m_pCameraComponent->IsActive())

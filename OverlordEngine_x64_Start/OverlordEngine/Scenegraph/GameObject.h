@@ -50,6 +50,17 @@ public:
 	bool IsMarkedForDestroy() const { return m_MarkForDestroy; }
 	void SetMarkForDestroy() { m_MarkForDestroy = true; }
 
+	bool IsActive() const { return m_IsActive; }
+	void SetActive(bool state, bool affectChildren = true) 
+	{ 
+		m_IsActive = state; 
+		if (!affectChildren) return;
+		for (auto pChild : m_pChildren)
+		{
+			pChild->SetActive(state, affectChildren);
+		}
+	}
+
 #pragma region
 	template <class T>
 	bool HasComponent(bool searchChildren = false)

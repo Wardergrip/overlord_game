@@ -15,10 +15,6 @@ BoltsBoxComponent::BoltsBoxComponent(GameObject* pPlayer)
 BoltsBoxComponent::~BoltsBoxComponent()
 {
 	BoltsBoxes.erase(std::remove(BoltsBoxes.begin(), BoltsBoxes.end(), this),BoltsBoxes.end());
-	if (BoltsBoxes.empty())
-	{
-		TestScene::ENDGOAL_REACHED = true;
-	}
 }
 
 void BoltsBoxComponent::Initialize(const SceneContext& /*sceneContext*/)
@@ -103,5 +99,9 @@ void BoltsBoxComponent::BreakSequence()
 		pBolt->GetTransform()->Rotate(randomRot.x, randomRot.y, randomRot.z);
 	}
 
+	if (BoltsBoxes.size() == 1)
+	{
+		TestScene::ENDGOAL_REACHED = true;
+	}
 	thisObj->SetMarkForDestroy();
 }

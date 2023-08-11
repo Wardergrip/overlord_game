@@ -2,6 +2,7 @@
 
 class CharacterComponent;
 class TextComponent;
+class PostPixelated;
 class TestScene : public GameScene
 {
 public:
@@ -14,7 +15,9 @@ public:
 		CharacterMoveForward,
 		CharacterMoveBackward,
 		CharacterJump,
-		CharacterMelee
+		CharacterMelee,
+		PauseGame,
+		GoMainMenu
 	};
 
 	TestScene() 
@@ -39,6 +42,7 @@ protected:
 	/*void Draw() override;*/
 	void OnGUI() override;
 	void PostDraw() override;
+	void OnSceneDeactivated() override;
 
 private:
 	GameObject* m_pPlayer;
@@ -46,6 +50,7 @@ private:
 	physx::PxMaterial* m_pDefaultMaterial;
 	std::vector<RigidBodyComponent*> m_pLevelColliders;
 	CameraComponent* m_pCameraComp;
+	GameObject* m_pPauseMenuRoot;
 
 	void AddPlayerToScene(TextComponent* pBoltsTextComp);
 	void AddLevelVisual();
@@ -56,6 +61,9 @@ private:
 	int m_BoneTransformIdx;
 	ModelComponent* m_pRatchetModel;
 	GameObject* m_pTagbox;
+
+	PostPixelated* m_pPostPixaleted;
+	GameObject* m_pBoltsAmountObj;
 
 	FMOD::Sound* m_pMusic{ nullptr };
 	FMOD::Channel* m_pChannel{ nullptr };

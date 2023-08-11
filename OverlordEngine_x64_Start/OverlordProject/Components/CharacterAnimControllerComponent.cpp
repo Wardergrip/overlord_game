@@ -29,6 +29,8 @@ void CharacterAnimControllerComponent::Initialize(const SceneContext&)
 
 void CharacterAnimControllerComponent::Update(const SceneContext& sceneContext)
 {
+	if (GetGameObject()->GetScene()->IsPaused()) return;
+
 	auto previousState = m_pCurrentAnimationState;
 	auto newState = m_pCurrentAnimationState->OnHandle(sceneContext);
 	if (newState == previousState) return;

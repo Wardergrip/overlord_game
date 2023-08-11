@@ -67,6 +67,8 @@ void GameObject::RootPostInitialize(const SceneContext& sceneContext)
 
 void GameObject::RootUpdate(const SceneContext& sceneContext)
 {
+	if (!m_IsActive) return;
+
 	//User-Object Update
 	Update(sceneContext);
 	
@@ -97,6 +99,8 @@ void GameObject::RootUpdate(const SceneContext& sceneContext)
 }
 void GameObject::RootDraw(const SceneContext& sceneContext)
 {
+	if (!m_IsActive) return;
+
 	//User-Object Draw
 	Draw(sceneContext);
 
@@ -114,6 +118,8 @@ void GameObject::RootDraw(const SceneContext& sceneContext)
 }
 void GameObject::RootPostDraw(const SceneContext& sceneContext)
 {
+	if (!m_IsActive) return;
+
 	//Post-Draw
 	PostDraw(sceneContext);
 
@@ -133,6 +139,8 @@ void GameObject::RootPostDraw(const SceneContext& sceneContext)
 
 void GameObject::RootShadowMapDraw(const SceneContext& sceneContext) const
 {
+	if (!m_IsActive) return;
+
 	//Component Shadow-Draw
 	for (BaseComponent* pComp : m_pComponents)
 	{

@@ -3,6 +3,7 @@
 
 #include "Prefabs/CubePrefab.h"
 #include "Components/TextComponent.h"
+#include "TestScene.h"
 
 void MenuScene::Initialize()
 {
@@ -96,6 +97,10 @@ void MenuScene::Update()
 		{
 			if (pPickedObject == m_pPlayButton)
 			{
+				if (SceneManager::Get()->IsSceneLoaded(L"TestScene") == false)
+				{
+					SceneManager::Get()->AddGameScene(new TestScene());
+				}
 				SceneManager::Get()->NextScene();
 			}
 			else if (pPickedObject == m_pExitButton)

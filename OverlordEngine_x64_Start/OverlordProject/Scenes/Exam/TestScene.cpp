@@ -16,8 +16,8 @@
 #include "Materials/Post/PostPixelated.h"
 #include "Components/AutokillComponent.h"
 
-//#define ENABLE_POSTPROCESSING
-//#define ENABLE_BACKGROUNDMUSIC
+#define ENABLE_POSTPROCESSING
+#define ENABLE_BACKGROUNDMUSIC
 
 //#define ENABLE_DEBUG
 
@@ -54,11 +54,11 @@ void TestScene::Initialize()
 	boltsHudObj->AddComponent(new SpriteComponent(L"Textures/BoltsHUD.png", DirectX::XMFLOAT2{1.f,0.f}));
 	boltsHudObj->GetTransform()->Translate(m_SceneContext.windowWidth, 0, .9f);
 
-	auto boltsAmountObj = AddChild(new GameObject());
-	auto boltText = boltsAmountObj->AddComponent(new TextComponent(pFont, L"0", DirectX::XMFLOAT2{m_SceneContext.windowWidth - 200, 10}, DirectX::XMFLOAT4{251 / 255.f, 218.f / 255.f, 127 / 255.f, 1.f}));
+	m_pBoltsAmountObj = AddChild(new GameObject());
+	auto boltText = m_pBoltsAmountObj->AddComponent(new TextComponent(pFont, L"0", DirectX::XMFLOAT2{m_SceneContext.windowWidth - 200, 10}, DirectX::XMFLOAT4{251 / 255.f, 218.f / 255.f, 127 / 255.f, 1.f}));
 
 	AddPlayerToScene(boltText);
-	AddFlagToScene();
+	//AddFlagToScene();
 
 	AddBoxToScene(XMVECTOR{ 3.4f, -1.f, 14.4f });
 	AddBoxToScene(XMVECTOR{ 36.8f, -2.1f, 8.8f });
@@ -74,11 +74,34 @@ void TestScene::Initialize()
 	pSkyBoxDiff->SetSkyBoxTexture(L"Textures/SkyDawn.dds");
 	pSkyBoxModel->SetMaterial(pSkyBoxDiff);
 
-	m_pTagbox = AddChild(new CubePrefab());
+	/*m_pTagbox = AddChild(new CubePrefab());
 	m_BoneTransformIdx = 0;
-	m_pTagbox->GetTransform()->Scale(0.1f);
+	m_pTagbox->GetTransform()->Scale(0.1f);*/
 
 	//AddChild(new BoltPrefab(m_pPlayer))->GetTransform()->Translate(0, 10, 10);
+
+#pragma region PauseMenu
+	m_pPauseMenuRoot = AddChild(new GameObject());
+	auto pBackground = m_pPauseMenuRoot->AddChild(new GameObject());
+	pBackground->AddComponent(new SpriteComponent(L"Textures/GP2_Exam2023_MainMenu.png", { 0.5f,0.5f }, { 1.f,1.f,1.f,1.0f }));
+	pBackground->GetTransform()->Translate(m_SceneContext.windowWidth / 2.f, m_SceneContext.windowHeight / 2.f, .9f);
+	auto pPanel = m_pPauseMenuRoot->AddChild(new GameObject());
+	pPanel->AddComponent(new SpriteComponent(L"Textures/Black340x300.png", { 0.5f,0.5f }, { 1.f,1.f,1.f,1.f }));
+	pPanel->GetTransform()->Translate(m_SceneContext.windowWidth / 2.f, m_SceneContext.windowHeight / 2.f, .9f);
+
+	m_pPauseMenuRoot->AddChild(new GameObject())
+		->AddComponent(new TextComponent(pFont, L"W - Continue"))
+		->SetPos({ m_SceneContext.windowWidth * 0.5f - 80.f,m_SceneContext.windowHeight * 0.5f - 50.f});
+	m_pPauseMenuRoot->AddChild(new GameObject())
+		->AddComponent(new TextComponent(pFont, L"S - Restart"))
+		->SetPos({ m_SceneContext.windowWidth * 0.5f - 80.f,m_SceneContext.windowHeight * 0.5f });
+	m_pPauseMenuRoot->AddChild(new GameObject())
+		->AddComponent(new TextComponent(pFont, L"M - Mainmenu"))
+		->SetPos({ m_SceneContext.windowWidth * 0.5f - 80.f,m_SceneContext.windowHeight * 0.5f + 50.f});
+
+	m_pPauseMenuRoot->SetActive(false);
+#pragma endregion
+
 
 #ifdef ENABLE_BACKGROUNDMUSIC
 	const auto pFmod{ SoundManager::Get()->GetSystem() };
@@ -90,17 +113,46 @@ void TestScene::Initialize()
 
 #ifdef ENABLE_POSTPROCESSING
 	// POST PROCESSING
-	auto pPostPixelated = MaterialManager::Get()->CreateMaterial<PostPixelated>();
+	m_pPostPixaleted = MaterialManager::Get()->CreateMaterial<PostPixelated>();
 	const float windowWidth{ 1280 };
 	const float windowHeight{ 720 };
 	const float scaleFactor{ 0.45f };
-	pPostPixelated->SetCollRow(windowWidth * scaleFactor, windowHeight * scaleFactor);
-	AddPostProcessingEffect(pPostPixelated);
+	m_pPostPixaleted->SetCollRow(windowWidth * scaleFactor, windowHeight * scaleFactor);
+	AddPostProcessingEffect(m_pPostPixaleted);
 #endif
 }
 
 void TestScene::Update()
 {
+	if (m_SceneContext.pInput->IsActionTriggered(PauseGame))
+	{
+		m_IsPaused = !m_IsPaused;
+		m_pPauseMenuRoot->SetActive(m_IsPaused);
+		m_pBoltsAmountObj->SetActive(!m_IsPaused);
+		m_pPostPixaleted->SetIsEnabled(!m_IsPaused);
+	}
+	if (IsPaused())
+	{
+		if (m_SceneContext.pInput->IsActionTriggered(CharacterMoveForward))
+		{
+			m_IsPaused = false;
+			m_pPauseMenuRoot->SetActive(m_IsPaused);
+			m_pBoltsAmountObj->SetActive(!m_IsPaused);
+			m_pPostPixaleted->SetIsEnabled(!m_IsPaused);
+		}
+		if (m_SceneContext.pInput->IsActionTriggered(CharacterMoveBackward))
+		{
+			SceneManager::Get()->AddGameScene(new TestScene());
+			SceneManager::Get()->NextScene();
+			return;
+		}
+		if (m_SceneContext.pInput->IsActionTriggered(GoMainMenu))
+		{
+			SceneManager::Get()->PreviousScene();
+			return;
+		}
+	}
+
 	if (ENDGOAL_REACHED)
 	{
 		if (m_EndGoalReachedTimer == m_EndGoalWaitTime)
@@ -130,6 +182,7 @@ void TestScene::Update()
 			m_EndGoalReachedTimer = m_EndGoalWaitTime;
 			ENDGOAL_REACHED = false;
 			SceneManager::Get()->PreviousScene();
+			return;
 		}
 	}
 
@@ -142,9 +195,7 @@ void TestScene::Update()
 
 void TestScene::OnGUI()
 {
-#ifdef ENABLE_DEBUG
 	if (m_pCharComp) m_pCharComp->DrawImGui();
-#endif // ENABLE_DEBUG
 	//ImGui::DragInt("BoneTransformIdx", &m_BoneTransformIdx, 1.0f, 0, static_cast<int>(m_pRatchetModel->GetAnimator()->GetBoneTransforms().size() - 1));
 	//auto x = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,1) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().x*/;
 	//auto y = m_pRatchetModel->GetAnimator()->GetBoneTransforms()[m_BoneTransformIdx](4,2) /*+ m_pRatchedModel->GetTransform()->GetWorldPosition().y*/;
@@ -178,6 +229,12 @@ void TestScene::PostDraw()
 	{
 		ShadowMapRenderer::Get()->Debug_DrawDepthSRV({ m_SceneContext.windowWidth - 10.f, 10.f }, { m_ShadowMapScale, m_ShadowMapScale }, { 1.f,0.f });
 	}
+}
+
+void TestScene::OnSceneDeactivated()
+{
+	ENDGOAL_REACHED = false;
+	SceneManager::Get()->RemoveGameScene(this, true);
 }
 
 void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
@@ -219,6 +276,12 @@ void TestScene::AddPlayerToScene(TextComponent* pBoltsTextComp)
 	m_SceneContext.pInput->AddInputAction(inputAction);
 
 	inputAction = InputAction(CharacterMelee, InputState::pressed, 'G');
+	m_SceneContext.pInput->AddInputAction(inputAction);
+
+	inputAction = InputAction(PauseGame, InputState::pressed, 'P');
+	m_SceneContext.pInput->AddInputAction(inputAction);
+
+	inputAction = InputAction(GoMainMenu, InputState::pressed, 'M');
 	m_SceneContext.pInput->AddInputAction(inputAction);
 
 	// Model
